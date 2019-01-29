@@ -1,0 +1,68 @@
+package EBM_tool.DMNEngine;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class DescriptionGetter {
+
+	private Document document;
+
+	public DescriptionGetter(Document document) {
+		this.document = document;
+	}
+
+	public ArrayList<String> interpreter(String className, String tagName, String attributeName) {
+		if (document == null) {
+			return null;
+		} else {
+			ArrayList<String> descriptions = new ArrayList<>();
+			NodeList classNodes = document.getElementsByTagName(tagName);// get the Elements by the tag name
+			for (int i = 0; i < classNodes.getLength(); i++) {
+				Node classNode = classNodes.item(i);
+				if (classNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) classNode;
+					String name = filteredName(element.getAttribute("rdf:about"));
+					if (className.equals(name)) {
+						NodeList tmpList = element.getElementsByTagName(attributeName);
+						for (int j = 0; j < tmpList.getLength(); j++) {
+							descriptions.add(tmpList.item(j).getTextContent());
+						}
+						return descriptions;
+					}
+				}
+			}
+			return null;
+		}
+	}
+
+	public ArrayList<String> getComment(String className) {
+		// System.out.println("comment... " + className);
+		return interpreter(className, "owl:Class", "rdfs:comment");
+	}
+
+	public ArrayList<String> getDefinition(String className) {
+		// System.out.println("definition... " + className);
+		return interpreter(className, "owl:Class", "ontologies:definition");
+	}
+
+	public ArrayList<String> getReferences(String className) {
+		// System.out.println("references... " + className);
+		return interpreter(className, "owl:Class", "ontologies:reference");
+	}
+
+	private String filteredName(String unfilteredName) {
+		String name = unfilteredName;
+		name = name.substring(name.lastIndexOf("#") + 1);
+		return name;
+	}
+
+}
