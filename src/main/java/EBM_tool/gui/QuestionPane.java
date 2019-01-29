@@ -88,7 +88,6 @@ public class QuestionPane extends JPanel {
 		setPreferredSize(dim);
 
 		add(scroll, BorderLayout.CENTER);
-		System.out.println("YOU ARE HERE");
 	}
 
 }
