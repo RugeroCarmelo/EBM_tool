@@ -24,6 +24,8 @@ java -jar EBM_tool.jar
 ```
 to run the program
 
+### Using the Tool
+To make use of the tool you first need to have a data file made using the [EBM_ruleManagement](https://github.com/tom277/EBM_ruleManagement) protege plugin. There is a sample data file called 'testData.per'. To open the data file go to File -> Open and choose the desired file. You can now browse the ontology by pressing on the concepts displayed on the window on the left. Information and rules for this concept will be displayed on the right.
 
 ## New Features
 -
@@ -40,3 +42,4 @@ Open source projects and libraries which were used to make this project better
 
 - [OWL2Prefuse](http://owl2prefuse.sourceforge.net/) (used to display the ontology)
 - [Camunda](https://camunda.com/) (used to run the rules and get the recommendations)
+- HOANG THUAN, N. (2016). ESTABLISH CROWDSOURCING AS AN ORGANISATIONAL BUSINESS PROCESS: A DESIGN SCIENCE APPROACH. Ph.D. Victoria University of Wellington. -- For sample onltology and rules
