@@ -1,6 +1,6 @@
 # EBM tool
 
-Recommendations are processed using the camunda (https://camunda.com/). The ontology is displayed using OWL2Prefuse (http://owl2prefuse.sourceforge.net/).
+Recommendations are processed using the camunda dmn engine(https://camunda.com/). The ontology is displayed using OWL2Prefuse (http://owl2prefuse.sourceforge.net/).
 To try the tool click the file menu and open the test file in the data folder
 
 ## Getting Started
