@@ -36,7 +36,7 @@ to run the program
 This project is licensed under the MIT License
 **Free Software**
 ## Acknowledgments
-Other open source projects and libraries were used to make this project better
+Open source projects and libraries which were used to make this project better
 
 - [OWL2Prefuse](http://owl2prefuse.sourceforge.net/) (used to display the ontology)
 - [Camunda](https://camunda.com/) (used to run the rules and get the recommendations)
