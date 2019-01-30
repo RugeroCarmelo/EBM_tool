@@ -104,16 +104,16 @@ public class ConceptRuleRelationManager {
 		return topics;
 	}
 	
-	public ArrayList<Rule> getRulesWithTopic(String topic){//TODO finish this
+	public ArrayList<Rule> getRulesWithTopic(String topic){
 		ArrayList<Rule> conceptRules = getAllConceptRules();
 		ArrayList<Rule> tmpConceptRules = new ArrayList<Rule>();
 		for(int i = 0; i < conceptRules.size(); i++) {
-			if( conceptRules.get(i).equals(topic) && (!tmpConceptRules.contains(conceptRules.get(i)))) {
+			if( conceptRules.get(i).getTopic().equals(topic) && (!tmpConceptRules.contains(conceptRules.get(i)))) {
 				tmpConceptRules.add(conceptRules.get(i));
 			}
 		}
 		
-		return conceptRules;
+		return tmpConceptRules;
 	}
 	
 	private int findIndex(ArrayList<String> list, String term) {
