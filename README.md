@@ -6,7 +6,7 @@ Recommendations are processed using the camunda (https://camunda.com/). The onto
 ### Prerequisites
 - [Java](https://www.java.com/en/download/)
 - [Maven](https://maven.apache.org/) 
- -- [installing maven](https://www.mkyong.com/maven/how-to-install-maven-in-windows/)
+ - - [installing maven](https://www.mkyong.com/maven/how-to-install-maven-in-windows/)
   
 ### Running
 After the prerequisites are installed open the command prompt, change to the cloned folder from githut and run the following commands:
