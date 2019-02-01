@@ -13,8 +13,12 @@ import com.tom.EBM_RuleManager.Model.Relation;
 import com.tom.EBM_RuleManager.Model.Rule;
 import com.tom.EBM_RuleManager.Model.RuleRelationSerial;
 
+import EBM_tool.DetailListeners.ConceptSelectionEvent;
+import EBM_tool.DetailListeners.ConceptSelectionListener;
 import EBM_tool.DetailListeners.DetailEvent;
 import EBM_tool.DetailListeners.DetailListener;
+import EBM_tool.DetailListeners.RecommendationChangeEvent;
+import EBM_tool.DetailListeners.RecommendationChangeListener;
 import EBM_tool.DetailListeners.TabChangeEvent;
 import EBM_tool.DetailListeners.TabChangeListener;
 import EBM_tool.OWL2Prefuse.OWLViewComp;
@@ -42,6 +46,7 @@ public class MainFrame extends JFrame {
 	private Container c = getContentPane();
 	private JPanel viewOWL;
 	private JFileChooser fileChooser;
+	private OWLViewComp VC;
 
 	Dimension dim = new Dimension(650, 930);
 
@@ -52,17 +57,14 @@ public class MainFrame extends JFrame {
 		FileFilter FF = new M_FileFilter("per", "Files with relations and rules");
 		fileChooser.addChoosableFileFilter(new M_FileFilter("per", "Files with relations and rules"));
 		fileChooser.setFileFilter(FF);
-		// getRelations();
 		setLayout(new FlowLayout());// set layout manager
 		Relation CRR = new Relation("");
-
-		// File tmpFile = new File("data/ontologyMain.owl");
-		// Document document = getOWLDocument(tmpFile);
-
 		pane = new QuestionPane(dim, CRR, getOWLDocument());
-		// setDetailPane("", document);
-
-		//c.add(pane);
+		pane.addRecommendationChangeListener(new RecommendationChangeListener() {
+			public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
+				VC.updateSummaryPanel(CRRM);
+			}
+		});
 	}
 	
 	private Document getOWLDocument() {
@@ -77,40 +79,38 @@ public class MainFrame extends JFrame {
 		try {
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();// this needs to be changed to a forwarding throw
+			e.printStackTrace();//TODO: deal with errors
 		}
 		Document document = null;
 		try {
 			document = documentBuilder.parse(file);
 		} catch (Exception e) {
-			// e.printStackTrace();
 			System.out.println("Error: input stream didn't work");
 			return null;
 		}
 		return document;
 	}
 
-	private void setDetailPane(String name, org.w3c.dom.Document document) {
-		// pane.setLabel(text);
+	private void setDetailPane(Relation relation, org.w3c.dom.Document document) {
 		c.remove(pane);
 		c.revalidate();
 		c.repaint();
 		revalidate();
 		repaint();
 
-		pane = new QuestionPane(dim, CRRM.getRelation(name), document);
-		//System.out.println("relation name: " + CRRM.getRelation(name).getConceptName());
+		pane = new QuestionPane(dim, relation, document);
 		pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
+		pane.addRecommendationChangeListener(new RecommendationChangeListener() {
+			public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
+				VC.updateSummaryPanel(CRRM);
+			}
+		});
 		c.add(pane);
 		c.revalidate();
 		c.repaint();
 		revalidate();
 		repaint();
 	}
-
-	// public DetailPanel getDetailPanel() {
-	// return detailPanel;
-	// }
 
 	// for test only
 	public File getFileFromSource(String resourceLocation) {
@@ -131,7 +131,7 @@ public class MainFrame extends JFrame {
 		}
 		return doc;
 	}
-
+	// for test only
 	public void getRelations() {
 
 		Rule CR1 = new Rule("org/camunda/bpm/example/diagram_1.dmn", "Crowdsourcing", "Management", "Info", "ID",
@@ -230,7 +230,6 @@ public class MainFrame extends JFrame {
 			ois.close();
 			Relation CRR = new Relation("");
 
-			// File tmpFile = new File("data/ontologyMain.owl");
 			final Document document = getOWLDocument(RRS.getOntology());
 
 			if (viewOWL != null) {
@@ -242,13 +241,16 @@ public class MainFrame extends JFrame {
 			revalidate();
 			repaint();
 
-			final OWLViewComp VC = new OWLViewComp(RRS.getOntology(), CRRM);
+			VC = new OWLViewComp(RRS.getOntology(), CRRM);
 
-			VC.addDetailListener(new DetailListener() {
-				public void detailEventOccurred(DetailEvent event) {
-					String text = event.getText();
-					setDetailPane(text, document);
-					//System.out.println("name: " + text);
+			VC.addConceptSelectionListener(new ConceptSelectionListener() {
+				//public void detailEventOccurred(DetailEvent event) {
+					//setDetailPane(event.getText(), document);
+					////System.out.println("name: " + text);
+				//}
+
+				public void conceptSelectionOccurred(ConceptSelectionEvent event) {
+					setDetailPane(event.getRelations(), document);
 				}
 			});
 
@@ -262,7 +264,12 @@ public class MainFrame extends JFrame {
 			
 			pane = new QuestionPane(dim, CRR, getOWLDocument(RRS.getOntology()));
 			pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
-			setDetailPane("", document);
+			pane.addRecommendationChangeListener(new RecommendationChangeListener() {
+				public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
+					VC.updateSummaryPanel(CRRM);
+				}
+			});
+			setDetailPane(new Relation(""), document);
 			c.add(viewOWL);
 			c.add(pane);
 

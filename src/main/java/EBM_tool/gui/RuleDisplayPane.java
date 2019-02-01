@@ -24,8 +24,12 @@ import com.tom.EBM_RuleManager.Model.Rule;
 import EBM_tool.DMNEngine.Question;
 import EBM_tool.DMNEngine.ScrapeDMN;
 import EBM_tool.DMNEngine.ProcessDMN;
+import EBM_tool.DetailListeners.ConceptSelectionEvent;
+import EBM_tool.DetailListeners.ConceptSelectionListener;
 import EBM_tool.DetailListeners.DetailEvent;
 import EBM_tool.DetailListeners.DetailListener;
+import EBM_tool.DetailListeners.RecommendationChangeEvent;
+import EBM_tool.DetailListeners.RecommendationChangeListener;
 
 public class RuleDisplayPane extends JPanel {
 	/**
@@ -170,17 +174,14 @@ public class RuleDisplayPane extends JPanel {
 	}
 
 	public void TempAction(Rule CR) {// TODO TempAction should be changed to a more efficient long term solution
-		String resourceLocation = CR.getRuleLocation();
 
 		for (int i = 0; i < questions.size(); i++) {
 			questions.get(i).setAnswer(questionSelects.get(i).getSelectedValue());
 		}
 
-		ProcessDMN mng = new ProcessDMN();
+		ProcessDMN p_dmn = new ProcessDMN();
 		ArrayList<String> fields = new ArrayList<>();
 		ArrayList<String> fieldValues = new ArrayList<>();
-		String resourceName = resourceLocation.substring(resourceLocation.lastIndexOf("/") + 1);// getting the file name
-																								// of the rule from the // path to the rule
 		if(questions.size() > 0) {
 			String decisionID = questions.get(0).getDecisionId();
 			for (int i = 0; i < questions.size(); i++) {
@@ -189,11 +190,32 @@ public class RuleDisplayPane extends JPanel {
 			}
 
 			CR.setAnswers(fieldValues);
-			String recommendation = mng.getDecision(fields, fieldValues, CR.getFile(), decisionID);
+			String recommendation = p_dmn.getDecision(fields, fieldValues, CR.getFile(), decisionID);
 			RDP.setRecommendation(recommendation);
-			CR.setRecommendation(recommendation);
+			if(!(CR.getRecommendation().equals(recommendation)) || CR.getRecommendation() == null) {
+				CR.setRecommendation(recommendation);
+				fireRecommendationChangeEvent(new RecommendationChangeEvent(this, ""));
+			}
 		}else {
 			CR.setRecommendation("ERROR occured");
 		}																						
+	}
+	
+	public void fireRecommendationChangeEvent(RecommendationChangeEvent event) {
+		Object[] listeners = listenerList.getListenerList();
+
+		for (int i = 0; i < listeners.length; i += 2) {
+			if (listeners[i] == RecommendationChangeListener.class) {
+				((RecommendationChangeListener) listeners[i + 1]).recommendationChangeEventOcurred(event);
+			}
+		}
+	}
+
+	public void addRecommendationChangeListener(RecommendationChangeListener listener) {
+		listenerList.add(RecommendationChangeListener.class, listener);
+	}
+
+	public void removeRecommendationChangeListener(RecommendationChangeListener listener) {
+		listenerList.remove(RecommendationChangeListener.class, listener);
 	}
 }

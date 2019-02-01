@@ -8,6 +8,8 @@ import java.awt.geom.Point2D;
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
 
+import EBM_tool.DetailListeners.ConceptSelectionEvent;
+import EBM_tool.DetailListeners.ConceptSelectionListener;
 import EBM_tool.DetailListeners.DetailEvent;
 import EBM_tool.DetailListeners.DetailListener;
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Constants;
@@ -370,8 +372,6 @@ public class TreeDisplay extends Display
             */
             public void itemClicked(VisualItem item, MouseEvent e) {
             	String tmp = item.getString("URI");
-            	tmp = tmp.substring(tmp.lastIndexOf("#") + 1);
-            	//System.out.print(tmp.substring(tmp.lastIndexOf("#") + 1) + "\n");
             	fireDetailEvent(new DetailEvent(item, tmp));
             }
         });
@@ -395,6 +395,7 @@ public class TreeDisplay extends Display
         return m_URILabel;
     }
     
+	
     public void fireDetailEvent(DetailEvent event) {
 		Object[] listeners = listenerList.getListenerList();
 

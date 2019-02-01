@@ -12,6 +12,9 @@ import javax.swing.JScrollPane;
 
 import com.tom.EBM_RuleManager.Model.Relation;
 
+import EBM_tool.DetailListeners.RecommendationChangeEvent;
+import EBM_tool.DetailListeners.RecommendationChangeListener;
+
 public class QuestionPane extends JPanel {
 	/**
 	 * 
@@ -51,6 +54,11 @@ public class QuestionPane extends JPanel {
 			for (int i = 0; i < CRR.size(); i++) {
 				if (CRR.getRuleAtIndex(i).getFile() != null) {
 					RuleDisplayPane tmp = new RuleDisplayPane(CRR.getRuleAtIndex(i));
+					tmp.addRecommendationChangeListener(new RecommendationChangeListener() {
+						public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
+							fireRecommendationChangeEvent(event);
+						}
+					});
 					pane.add(tmp);
 					localHeight += tmp.getTotalHeight();
 				}
@@ -88,6 +96,24 @@ public class QuestionPane extends JPanel {
 		setPreferredSize(dim);
 
 		add(scroll, BorderLayout.CENTER);
+	}
+	
+	public void fireRecommendationChangeEvent(RecommendationChangeEvent event) {
+		Object[] listeners = listenerList.getListenerList();
+
+		for (int i = 0; i < listeners.length; i += 2) {
+			if (listeners[i] == RecommendationChangeListener.class) {
+				((RecommendationChangeListener) listeners[i + 1]).recommendationChangeEventOcurred(event);
+			}
+		}
+	}
+
+	public void addRecommendationChangeListener(RecommendationChangeListener listener) {
+		listenerList.add(RecommendationChangeListener.class, listener);
+	}
+
+	public void removeRecommendationChangeListener(RecommendationChangeListener listener) {
+		listenerList.remove(RecommendationChangeListener.class, listener);
 	}
 
 }

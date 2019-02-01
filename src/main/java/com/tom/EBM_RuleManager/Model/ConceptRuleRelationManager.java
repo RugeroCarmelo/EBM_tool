@@ -112,7 +112,26 @@ public class ConceptRuleRelationManager {
 				tmpConceptRules.add(conceptRules.get(i));
 			}
 		}
-		
+		return tmpConceptRules;
+	}
+	
+	public ArrayList<Rule> getRulesWithRecommendation(ArrayList<Rule> list, String recommendation){
+		ArrayList<Rule> tmpConceptRules = new ArrayList<Rule>();
+		for(int i = 0; i < list.size(); i++) {
+			if( list.get(i).getRecommendation().equals(recommendation) && (!tmpConceptRules.contains(list.get(i)))) {
+				tmpConceptRules.add(list.get(i));
+			}
+		}
+		return tmpConceptRules;
+	}
+	
+	public ArrayList<Rule> findRules(ArrayList<Rule> list, String recommendation, String name){
+		ArrayList<Rule> tmpConceptRules = new ArrayList<Rule>();
+		for(int i = 0; i < list.size(); i++) {
+			if( list.get(i).getRecommendation().equals(recommendation) && list.get(i).getRuleName().equals(name) && (!tmpConceptRules.contains(list.get(i)))) {
+				tmpConceptRules.add(list.get(i));
+			}
+		}
 		return tmpConceptRules;
 	}
 	

@@ -376,8 +376,6 @@ public class GraphDisplay extends Display
             */
             public void itemClicked(VisualItem item, MouseEvent e) {
             	String tmp = item.getString("URI");
-            	tmp = tmp.substring(tmp.lastIndexOf("#") + 1);
-            	//System.out.print(tmp.substring(tmp.lastIndexOf("#") + 1) + "\n");
             	fireDetailEvent(new DetailEvent(item, tmp));
             }
         });
