@@ -1,3 +1,4 @@
+C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\DetailListeners\ConceptSelectionListener.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\M_FileFilter.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\DMNEngine\ScrapeDMN.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\AttributeSaver.java
@@ -24,7 +25,9 @@ C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\RecommendationDisplayPanel.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\OWL2Prefuse\graph\NodeColorAction.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\OWL2Prefuse\tree\NodeColorAction.java
+C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\DetailListeners\ConceptSelectionEvent.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\OWL2Prefuse\graph\GraphPanel.java
+C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\DetailListeners\RecommendationChangeEvent.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\OWL2Prefuse\tree\TreeDisplay.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\OWL2Prefuse\graph\HideDecoratorAction.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\RuleDisplayPane.java
@@ -33,6 +36,7 @@ C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\DetailListeners\TabChangeListener.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\DecisionDisplayPanel.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\OWL2Prefuse\OWL2Prefuse\Converter.java
+C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\DetailListeners\RecommendationChangeListener.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\TreeView.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\com\tom\EBM_RuleManager\Model\Relation.java
 C:\Users\Tomas\Google_Drive\Eclipse_Java_git\EBM_tool\src\main\java\EBM_tool\gui\DescriptionDisplay.java
