@@ -10,13 +10,10 @@ import org.w3c.dom.Document;
 
 import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
 import com.tom.EBM_RuleManager.Model.Relation;
-import com.tom.EBM_RuleManager.Model.Rule;
 import com.tom.EBM_RuleManager.Model.RuleRelationSerial;
 
 import EBM_tool.DetailListeners.ConceptSelectionEvent;
 import EBM_tool.DetailListeners.ConceptSelectionListener;
-import EBM_tool.DetailListeners.DetailEvent;
-import EBM_tool.DetailListeners.DetailListener;
 import EBM_tool.DetailListeners.RecommendationChangeEvent;
 import EBM_tool.DetailListeners.RecommendationChangeListener;
 import EBM_tool.DetailListeners.TabChangeEvent;
@@ -71,7 +68,6 @@ public class MainFrame extends JFrame {
 		return null;
 	}
 	private Document getOWLDocument(File file) {
-		ClassLoader classLoader = getClass().getClassLoader();
 
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -110,58 +106,6 @@ public class MainFrame extends JFrame {
 		c.repaint();
 		revalidate();
 		repaint();
-	}
-
-	// for test only
-	public File getFileFromSource(String resourceLocation) {
-		ClassLoader classLoader = getClass().getClassLoader();
-		File doc;// File doc
-		try {
-			doc = new File(classLoader.getResource(resourceLocation).getFile());// doc = new
-																				// File(classLoader.getResource(fileName).getFile())
-																				// doc =
-																				// classLoader.getResourceAsStream(fileName)
-		} catch (Exception e) {
-			System.out.println("no file with specified name found | File Name: " + resourceLocation);// TODO needs to be
-																										// turned into a
-																										// throw
-																										// exception
-			// statement
-			return null;
-		}
-		return doc;
-	}
-	// for test only
-	public void getRelations() {
-
-		Rule CR1 = new Rule("org/camunda/bpm/example/diagram_1.dmn", "Crowdsourcing", "Management", "Info", "ID",
-				getFileFromSource("org/camunda/bpm/example/diagram_1.dmn"));
-		Rule CR3 = new Rule("org/camunda/bpm/example/diagram_3.dmn", "Crowdsourcing", "People", "Info", "ID",
-				getFileFromSource("org/camunda/bpm/example/diagram_3.dmn"));
-		Rule CR4 = new Rule("org/camunda/bpm/example/diagram_4.dmn", "Crowdsourcing", "Task_Characteristic", "Info",
-				"ID", getFileFromSource("org/camunda/bpm/example/diagram_4.dmn"));
-		CR1.setInformation(
-				"Demonstration of a description. The description would go in here and then displayed in a pop up box, what happens however if I keep on going and just don't stop will a new line eventually start?");
-
-		Relation CRR = new Relation("Decision_to_crowdsource");
-		CRR.addRule(CR4);
-		CRR.addRule(CR1);
-		CRR.addRule(CR3);
-		CRR.addRule(CR4);
-		CRR.addRule(CR4);
-		CRR.addRule(CR4);
-		CRR.addRule(CR4);
-		Relation CRR1 = new Relation("Task_Characteristic");
-		CRR1.addRule(CR4);
-		Relation CRR2 = new Relation("People");
-		CRR2.addRule(CR3);
-		Relation CRR3 = new Relation("Management");
-		CRR3.addRule(CR1);
-
-		CRRM.add(CRR);
-		CRRM.add(CRR1);
-		CRRM.add(CRR2);
-		CRRM.add(CRR3);
 	}
 
 	private JMenuBar createMenuBar() {
@@ -244,11 +188,6 @@ public class MainFrame extends JFrame {
 			VC = new OWLViewComp(RRS.getOntology(), CRRM);
 
 			VC.addConceptSelectionListener(new ConceptSelectionListener() {
-				//public void detailEventOccurred(DetailEvent event) {
-					//setDetailPane(event.getText(), document);
-					////System.out.println("name: " + text);
-				//}
-
 				public void conceptSelectionOccurred(ConceptSelectionEvent event) {
 					setDetailPane(event.getRelations(), document);
 				}
@@ -273,9 +212,6 @@ public class MainFrame extends JFrame {
 			c.add(viewOWL);
 			c.add(pane);
 
-			 //for(int i = 0; i < CRRM.size(); i++) {
-			 //System.out.println("Concept name: " + CRRM.getRelation(i).getRuleAtIndex(0).getID());
-			 //}
 			 c.revalidate();
 				c.repaint();
 				revalidate();
@@ -293,7 +229,6 @@ public class MainFrame extends JFrame {
 
 		RuleRelationSerial RRS = new RuleRelationSerial();
 		RRS.setRelations(CRRM.getRelations());
-		// RRS.setRules(CRRM.getAllConceptRules());
 
 		oos.writeObject(RRS);
 		oos.close();
