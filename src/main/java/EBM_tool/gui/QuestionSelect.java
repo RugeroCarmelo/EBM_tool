@@ -51,15 +51,11 @@ public class QuestionSelect extends JPanel{//select the answer to the question
 			public void itemStateChanged(ItemEvent event) {
 			       if (event.getStateChange() == ItemEvent.SELECTED) {
 			          Object item = event.getItem();
-			          // do something with object
 			          fireDetailEvent(new DetailEvent(item, dropDownMenu.getSelectedItem().toString()));
 			       }
 			    }        
 		});
-		//dropDownMenu.setSelectedIndex(anIndex);
-
 		setBackground(new Color(254, 254, 254));
-		//setBackground(new Color(0, 0, 0));
 		
 		gc.anchor = GridBagConstraints.LINE_START;
         gc.weightx = 10;
@@ -77,13 +73,9 @@ public class QuestionSelect extends JPanel{//select the answer to the question
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.gridwidth = 1;
 		gc.gridx = 3;
-		//add(infoBtn, gc);
-		
-		//getSelectedValue();
 	}
 	
 	public String getSelectedValue() {
-		//System.out.println(dropDownMenu.getSelectedItem().toString());
 		return dropDownMenu.getSelectedItem().toString();
 	}
 	
@@ -95,10 +87,6 @@ public class QuestionSelect extends JPanel{//select the answer to the question
                 ((DetailListener)listeners[i+1]).detailEventOccurred(event);
             }
         }
-    }
-    
-    public void testButtonPressAction() {
-    	
     }
 
     public void addDetailListener (DetailListener listener){

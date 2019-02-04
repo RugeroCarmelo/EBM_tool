@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +14,7 @@ import com.tom.EBM_RuleManager.Model.Relation;
 import EBM_tool.DetailListeners.RecommendationChangeEvent;
 import EBM_tool.DetailListeners.RecommendationChangeListener;
 
-public class QuestionPane extends JPanel {
+public class DetailPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -25,7 +24,7 @@ public class QuestionPane extends JPanel {
 	private JScrollPane scroll;
 	private JLabel label;
 
-	public QuestionPane(Dimension dim, Relation CRR, org.w3c.dom.Document document) {
+	public DetailPanel(Dimension dim, Relation CRR, org.w3c.dom.Document document) {
 		this.label = new JLabel(CRR.getConceptName());
 		initialize(dim, CRR, document);
 	}

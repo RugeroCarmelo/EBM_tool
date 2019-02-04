@@ -1,5 +1,6 @@
 package EBM_tool.OWL2Prefuse;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -146,14 +147,13 @@ public class OWLViewComp extends JPanel implements ActionListener {
 	private final static boolean ORIENTATION_CONTROL_WIDGET = true;
 
 	private TreePanel summaryTreePanel;
-	Dimension graphSize;
 
 	/**
 	 * Creates a new instance of the Demo class.
 	 */
 	public OWLViewComp(InputStream file, final ConceptRuleRelationManager CRRM) {
+		setLayout(new BorderLayout());
 		Dimension size = getPreferredSize();
-		graphSize = new Dimension(900, 900);
 		size.width = 100;
 		setPreferredSize(size);
 
@@ -180,7 +180,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 		// Create a panel for the tree display.
 		m_treePanel = new TreePanel(treeDisp, LEGEND, ORIENTATION_CONTROL_WIDGET);
-		m_treePanel.setPreferredSize(graphSize);
+		//m_treePanel.setPreferredSize(graphSize);
 
 		// Create a graph.
 		OWLGraphConverter graphConverter = new OWLGraphConverter(file, false);// change to false to remove arrows true
@@ -200,14 +200,14 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		// Create a panel for the graph display, which includes a widget for
 		// controlling the number of hops in the graph.
 		m_graphPanel = new GraphPanel(graphDisp, LEGEND, HOPS_CONTROL_WIDGET);
-		m_graphPanel.setPreferredSize(graphSize);
+		//m_graphPanel.setPreferredSize(graphSize);
 
 		// Create the tabbed pane which contains the the home tab, the tree tabs
 		// and the graph tabs.
 		m_tabbedPane = new JTabbedPane();
+		//m_tabbedPane.setLayout(new BorderLayout());
 		m_tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				// System.out.println("Tab: " + m_tabbedPane.getSelectedIndex());
 				if (m_tabbedPane.getSelectedIndex() == 2) {
 					fireTabChangeEvent(new TabChangeEvent(m_tabbedPane, "", m_tabbedPane.getSelectedIndex()));
 				}
@@ -228,15 +228,15 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		m_tabbedPane.setMnemonicAt(2, KeyEvent.VK_G);
 
 		m_Panel = new JPanel();
-		m_Panel.add(m_tabbedPane);
-		setSize(graphSize);
+		m_Panel.setLayout(new BorderLayout());
+		m_Panel.add(m_tabbedPane, BorderLayout.CENTER);
 		setBackground(new Color(0, 0, 0));
 		m_Panel.setVisible(true);
 
 		// Create the file chooser.
 		m_fc = new JFileChooser();
 
-		add(m_Panel);
+		add(m_Panel, BorderLayout.CENTER);
 	}
 
 	public void updateSummaryPanel(ConceptRuleRelationManager CRRM) {
@@ -337,7 +337,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 		// Create a panel for the tree display.
 		TreePanel m_graphPanel2 = new TreePanel(treeDisp, LEGEND, HOPS_CONTROL_WIDGET);
-		m_graphPanel2.setPreferredSize(graphSize);
+		//m_graphPanel2.setPreferredSize(graphSize);
 		summaryTreePanel = m_graphPanel2;
 	}
 

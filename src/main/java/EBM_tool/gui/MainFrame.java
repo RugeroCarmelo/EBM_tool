@@ -6,7 +6,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 
 import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
@@ -41,14 +40,12 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 2081948293235131176L;
 
-	// private DetailPanel detailPanel;
-	private QuestionPane pane;
+	private DetailPanel pane;
 	private ConceptRuleRelationManager CRRM = new ConceptRuleRelationManager();
 	private Container c = getContentPane();
 	private JPanel viewOWL;
 	private JFileChooser fileChooser;
 	private OWLViewComp VC;
-	private JSplitPane splitPane;
 	
 	Dimension dim = new Dimension(600, 930);
 
@@ -59,9 +56,10 @@ public class MainFrame extends JFrame {
 		FileFilter FF = new M_FileFilter("per", "Files with relations and rules");
 		fileChooser.addChoosableFileFilter(new M_FileFilter("per", "Files with relations and rules"));
 		fileChooser.setFileFilter(FF);
-		setLayout(new FlowLayout());// set layout manager
+		setLayout(new BorderLayout());// set layout manager
+		c.setLayout(new BorderLayout());
 		Relation CRR = new Relation("");
-		pane = new QuestionPane(dim, CRR, getOWLDocument());
+		pane = new DetailPanel(dim, CRR, getOWLDocument());
 		pane.addRecommendationChangeListener(new RecommendationChangeListener() {
 			public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
 				VC.updateSummaryPanel(CRRM);
@@ -102,14 +100,14 @@ public class MainFrame extends JFrame {
 		revalidate();
 		repaint();
 
-		pane = new QuestionPane(dim, relation, document);
+		pane = new DetailPanel(dim, relation, document);
 		pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
 		pane.addRecommendationChangeListener(new RecommendationChangeListener() {
 			public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
 				VC.updateSummaryPanel(CRRM);
 			}
 		});
-		c.add(pane);
+		c.add(pane, BorderLayout.EAST);
 		c.revalidate();
 		c.repaint();
 		revalidate();
@@ -193,8 +191,6 @@ public class MainFrame extends JFrame {
 			c.repaint();
 			revalidate();
 			repaint();
-
-			int count = 0;
 			
 			ByteArrayInputStream tmp2 = new ByteArrayInputStream(RRS.getOntology());
 			
@@ -230,7 +226,7 @@ public class MainFrame extends JFrame {
 
 			viewOWL = VC.getPanel();
 
-			pane = new QuestionPane(dim, CRR, getOWLDocument(RRS.getOntology()));
+			pane = new DetailPanel(dim, CRR, getOWLDocument(RRS.getOntology()));
 			pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
 			pane.addRecommendationChangeListener(new RecommendationChangeListener() {
 				public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
@@ -238,8 +234,8 @@ public class MainFrame extends JFrame {
 				}
 			});
 			setDetailPane(new Relation(""), document);
-			c.add(viewOWL);
-			c.add(pane);
+			c.add(viewOWL, BorderLayout.CENTER);
+			c.add(pane, BorderLayout.EAST);
 
 			c.revalidate();
 			c.repaint();
