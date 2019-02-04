@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -144,17 +146,26 @@ public class OWLViewComp extends JPanel implements ActionListener {
 	private final static boolean ORIENTATION_CONTROL_WIDGET = true;
 
 	private TreePanel summaryTreePanel;
+	Dimension graphSize;
 
 	/**
 	 * Creates a new instance of the Demo class.
 	 */
 	public OWLViewComp(InputStream file, final ConceptRuleRelationManager CRRM) {
 		Dimension size = getPreferredSize();
+		graphSize = new Dimension(900, 900);
 		size.width = 100;
 		setPreferredSize(size);
 
 		// Create the tree from an OWL file.
-		OWLTreeConverter treeConverter = new OWLTreeConverter(file);
+		InputStream tmp3 = file;
+		try {
+			tmp3 = new FileInputStream("./new_source.owl");//file needs to be reloaded otherwise the graph view is not created for some reason
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		OWLTreeConverter treeConverter = new OWLTreeConverter(tmp3);
 		m_tree = treeConverter.getTree();
 
 		// Create a tree display.
@@ -169,7 +180,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 		// Create a panel for the tree display.
 		m_treePanel = new TreePanel(treeDisp, LEGEND, ORIENTATION_CONTROL_WIDGET);
-		m_treePanel.setPreferredSize(new Dimension(1000, 900));
+		m_treePanel.setPreferredSize(graphSize);
 
 		// Create a graph.
 		OWLGraphConverter graphConverter = new OWLGraphConverter(file, false);// change to false to remove arrows true
@@ -189,7 +200,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		// Create a panel for the graph display, which includes a widget for
 		// controlling the number of hops in the graph.
 		m_graphPanel = new GraphPanel(graphDisp, LEGEND, HOPS_CONTROL_WIDGET);
-		m_graphPanel.setPreferredSize(new Dimension(1000, 900));
+		m_graphPanel.setPreferredSize(graphSize);
 
 		// Create the tabbed pane which contains the the home tab, the tree tabs
 		// and the graph tabs.
@@ -218,7 +229,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 		m_Panel = new JPanel();
 		m_Panel.add(m_tabbedPane);
-		setSize(new Dimension(1000, 1000));
+		setSize(graphSize);
 		setBackground(new Color(0, 0, 0));
 		m_Panel.setVisible(true);
 
@@ -326,7 +337,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 		// Create a panel for the tree display.
 		TreePanel m_graphPanel2 = new TreePanel(treeDisp, LEGEND, HOPS_CONTROL_WIDGET);
-		m_graphPanel2.setPreferredSize(new Dimension(1000, 900));
+		m_graphPanel2.setPreferredSize(graphSize);
 		summaryTreePanel = m_graphPanel2;
 	}
 

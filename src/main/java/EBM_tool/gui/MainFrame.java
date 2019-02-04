@@ -48,8 +48,9 @@ public class MainFrame extends JFrame {
 	private JPanel viewOWL;
 	private JFileChooser fileChooser;
 	private OWLViewComp VC;
-
-	Dimension dim = new Dimension(650, 930);
+	private JSplitPane splitPane;
+	
+	Dimension dim = new Dimension(600, 930);
 
 	public MainFrame(String title) {
 		super(title);
