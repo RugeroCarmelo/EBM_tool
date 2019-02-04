@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -147,7 +148,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 	/**
 	 * Creates a new instance of the Demo class.
 	 */
-	public OWLViewComp(File file, final ConceptRuleRelationManager CRRM) {
+	public OWLViewComp(InputStream file, final ConceptRuleRelationManager CRRM) {
 		Dimension size = getPreferredSize();
 		size.width = 100;
 		setPreferredSize(size);
@@ -365,7 +366,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		return -1;
 	}
 
-	public static JPanel makeOWLViewComp(File file) {
+	public static JPanel makeOWLViewComp(InputStream file) {
 		// Create the tree from an OWL file.
 		OWLTreeConverter treeConverter = new OWLTreeConverter(file);
 		Tree m_tree = treeConverter.getTree();
@@ -460,9 +461,8 @@ public class OWLViewComp extends JPanel implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
-		if (action.equals(OPEN_ONTOLOGY))
-			openOntology();
-		else if (action.equals(OPEN_GRAPHML))
+		
+		if (action.equals(OPEN_GRAPHML))
 			openGraphML();
 		else if (action.equals(OPEN_TREEML))
 			openTreeML();
@@ -513,36 +513,6 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		}
 
 		return retval;
-	}
-
-	/**
-	 * This method is triggered when a user wants to open an ontology. It provides
-	 * the user with a file choser and handles the opening and visiualizing of the
-	 * chosen ontology. The opened ontology is visualized both as a simple tree, an
-	 * advanced tree and a graph.
-	 */
-	private void openOntology() {
-		// Create the file filter.
-		SimpleFileFilter[] filters = new SimpleFileFilter[] { new SimpleFileFilter("owl", "OWL ontologies (*.owl)") };
-
-		// Open the file.
-		String fileStr = openFileChooser(true, filters);
-		File file = new File(fileStr);
-
-		// Process the file.
-		if (file != null) {
-			OWLTreeConverter treeConverter = new OWLTreeConverter(file);
-			m_tree = treeConverter.getTree();
-			TreeDisplay treeDisp = new TreeDisplay(m_tree);
-			TreePanel treePanel = new TreePanel(treeDisp, LEGEND, ORIENTATION_CONTROL_WIDGET);
-			m_tabbedPane.setComponentAt(1, treePanel);
-
-			OWLGraphConverter graphConverter = new OWLGraphConverter(file, true);
-			m_graph = graphConverter.getGraph();
-			GraphDisplay graphDisp = new GraphDisplay(m_graph, GRAPH_DISTANCE_FILTER);
-			GraphPanel graphPanel = new GraphPanel(graphDisp, LEGEND, HOPS_CONTROL_WIDGET);
-			m_tabbedPane.setComponentAt(2, graphPanel);
-		}
 	}
 
 	/**

@@ -8,6 +8,7 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Converter;
 
 import java.io.File;
+import java.io.InputStream;
 
 import prefuse.data.Node;
 import prefuse.data.Tree;
@@ -34,7 +35,7 @@ public class OWLTreeConverter extends Converter
      * Creates a new instance of OWLTreeConverter.
      * @param p_OWLFile The path to the OWL file that needs to be converted.
      */
-    public OWLTreeConverter(File file)
+    public OWLTreeConverter(InputStream file)
     {
         super(file);
         createTree();

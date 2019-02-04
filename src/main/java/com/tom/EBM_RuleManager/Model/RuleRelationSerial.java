@@ -1,6 +1,7 @@
 package com.tom.EBM_RuleManager.Model;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ public class RuleRelationSerial implements Serializable {
 	private List<Rule> rules;
 	private List<Relation> relations;
 	private String info;
-	private File ontology;
+	private byte[] ontology;
 	/**
 	 * 
 	 */
@@ -20,11 +21,11 @@ public class RuleRelationSerial implements Serializable {
 
 	}
 
-	public File getOntology() {
+	public byte[] getOntology() {
 		return ontology;
 	}
 
-	public void setOntology(File ontology) {
+	public void setOntology(byte[] ontology) {
 		this.ontology = ontology;
 	}
 

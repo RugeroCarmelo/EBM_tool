@@ -1,6 +1,5 @@
 package com.tom.EBM_RuleManager.Model;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,21 +16,21 @@ public class Rule implements Serializable{
 	private String topic;
 	private String ruleName;
 	private String information;
-	//private InputStream inputStream;
-	private File file;
+	private byte[] dmn;
+	//private File file;
 	
 	private ArrayList<String> ruleAnswers = new ArrayList<>();//***
 	private String recommendation;//***
 
 	
-	public Rule(String ruleLocation, String topic, String ruleName, String info, String ID, File file) {
+	public Rule(String ruleLocation, String topic, String ruleName, String info, String ID, byte[] dmn) {
 		
 		information = info;
 		this.ruleLocation = ruleLocation;
 		this.topic = topic;
 		this.ruleName = ruleName;
 		this.id = ID;
-		this.file = file;
+		this.dmn = dmn;
 		
 		recommendation = "";//*
 	}
@@ -61,8 +60,8 @@ public class Rule implements Serializable{
 		return id;
 	}
 	
-	public File getFile(){
-		return file;
+	public byte[] getFile(){
+		return dmn;
 	}
 	
 	//____________________________________

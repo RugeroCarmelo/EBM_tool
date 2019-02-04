@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 
 import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
@@ -24,12 +25,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 public class MainFrame extends JFrame {
 	/**
@@ -63,11 +67,14 @@ public class MainFrame extends JFrame {
 			}
 		});
 	}
-	
+
 	private Document getOWLDocument() {
 		return null;
 	}
-	private Document getOWLDocument(File file) {
+
+	private Document getOWLDocument(byte[] bt) {
+
+		InputStream file = Utils.byteToStream(bt);
 
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -75,7 +82,7 @@ public class MainFrame extends JFrame {
 		try {
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();//TODO: deal with errors
+			e.printStackTrace();// TODO: deal with errors
 		}
 		Document document = null;
 		try {
@@ -122,6 +129,7 @@ public class MainFrame extends JFrame {
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(MainFrame.this, "Could not load data from file", "Error",
 								JOptionPane.ERROR_MESSAGE);
+						e.printStackTrace();
 					}
 				}
 			}
@@ -185,7 +193,27 @@ public class MainFrame extends JFrame {
 			revalidate();
 			repaint();
 
-			VC = new OWLViewComp(RRS.getOntology(), CRRM);
+			int count = 0;
+			
+			ByteArrayInputStream tmp2 = new ByteArrayInputStream(RRS.getOntology());
+			
+			//---------------Very hacky way of getting the ontology from the byte[] for some reason converting it to an InputStream did not work
+			OutputStream os = new FileOutputStream("./new_source.owl");
+
+			byte[] buffer = new byte[1024];
+			int bytesRead;
+			// read from is to buffer
+			while ((bytesRead = tmp2.read(buffer)) != -1) {
+				os.write(buffer, 0, bytesRead);
+			}
+			tmp2.close();
+			// flush OutputStream to write any buffered data to file
+			os.flush();
+			os.close();
+
+			InputStream tmp3 = new FileInputStream("./new_source.owl");
+			//-----------------
+			VC = new OWLViewComp(tmp3, CRRM);//
 
 			VC.addConceptSelectionListener(new ConceptSelectionListener() {
 				public void conceptSelectionOccurred(ConceptSelectionEvent event) {
@@ -200,7 +228,7 @@ public class MainFrame extends JFrame {
 			});
 
 			viewOWL = VC.getPanel();
-			
+
 			pane = new QuestionPane(dim, CRR, getOWLDocument(RRS.getOntology()));
 			pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
 			pane.addRecommendationChangeListener(new RecommendationChangeListener() {
@@ -212,11 +240,11 @@ public class MainFrame extends JFrame {
 			c.add(viewOWL);
 			c.add(pane);
 
-			 c.revalidate();
-				c.repaint();
-				revalidate();
-				repaint();
-			
+			c.revalidate();
+			c.repaint();
+			revalidate();
+			repaint();
+
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

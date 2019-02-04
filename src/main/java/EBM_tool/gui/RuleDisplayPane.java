@@ -130,7 +130,7 @@ public class RuleDisplayPane extends JPanel {
 
 	public void getTheQuestions(final Rule CR) {
 		ScrapeDMN tmp = new ScrapeDMN();
-		tmp.interpreter(CR.getFile());
+		tmp.interpreter(Utils.byteToStream(CR.getFile()));//-------------
 		questions = tmp.getQuestions();
 		
 		numberOfQuestions = questions.size();
@@ -190,7 +190,7 @@ public class RuleDisplayPane extends JPanel {
 			}
 
 			CR.setAnswers(fieldValues);
-			String recommendation = p_dmn.getDecision(fields, fieldValues, CR.getFile(), decisionID);
+			String recommendation = p_dmn.getDecision(fields, fieldValues, Utils.byteToStream(CR.getFile()), decisionID);//---------
 			RDP.setRecommendation(recommendation);
 			if(!(CR.getRecommendation().equals(recommendation)) || CR.getRecommendation() == null) {
 				CR.setRecommendation(recommendation);

@@ -16,46 +16,43 @@ import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.DmnEngineConfiguration;
 
 public class ProcessDMN {
-	public String getDecision(ArrayList<String> fields, ArrayList<String> fieldValues, File file, String decisionID) {
+	
+	public String getDecision(ArrayList<String> fields, ArrayList<String> fieldValues, InputStream inputStream, String decisionID) {
 
-		InputStream inputStream;
-		try {
-			inputStream = new FileInputStream(file);
-			VariableMapImpl foo = new VariableMapImpl();
-			for (int i = 0; i < fields.size(); i++) {
-				foo.putValue(fields.get(i), fieldValues.get(i));
-			}
-			VariableMap variables = foo;
-
-			// create a new default DMN engine
-			DmnEngine dmnEngine = DmnEngineConfiguration.createDefaultDmnEngineConfiguration().buildEngine();
-
-			String recommendation;
-
-			try {
-				DmnDecision decision = dmnEngine.parseDecision(decisionID, inputStream);
-
-				// evaluate decision
-				DmnDecisionTableResult result = dmnEngine.evaluateDecisionTable(decision, variables);
-
-				// get results
-				recommendation = result.getSingleResult().getSingleEntry();
-				//Object[] tmp = result.getResultList().get(0).values().toArray();//for multiple results?
-				//System.out.println(tmp[0].toString());
-			} finally {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					System.err.println("Could not close stream: " + e.getMessage());
-				}
-			}
-
-			return recommendation;
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(inputStream == null) {
+			return "error occured";
 		}
-		return "Error occured";
+		
+		VariableMapImpl foo = new VariableMapImpl();
+		for (int i = 0; i < fields.size(); i++) {
+			foo.putValue(fields.get(i), fieldValues.get(i));
+		}
+		VariableMap variables = foo;
+
+		// create a new default DMN engine
+		DmnEngine dmnEngine = DmnEngineConfiguration.createDefaultDmnEngineConfiguration().buildEngine();
+
+		String recommendation;
+
+		try {
+			DmnDecision decision = dmnEngine.parseDecision(decisionID, inputStream);
+
+			// evaluate decision
+			DmnDecisionTableResult result = dmnEngine.evaluateDecisionTable(decision, variables);
+
+			// get results
+			recommendation = result.getSingleResult().getSingleEntry();
+			//Object[] tmp = result.getResultList().get(0).values().toArray();//for multiple results?
+			//System.out.println(tmp[0].toString());
+		} finally {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				System.err.println("Could not close stream: " + e.getMessage());
+			}
+		}
+
+		return recommendation;
 	}
 	
 }

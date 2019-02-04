@@ -15,77 +15,8 @@ import java.util.ArrayList;
 public class ScrapeDMN {
 	// private ArrayList<String> labels = new ArrayList<>();
 	private ArrayList<Question> questions = new ArrayList<Question>();
-
-	public void main() {
-		interpreter("org/camunda/bpm/example/diagram_1.dmn");
-	}
-
-	public void interpreter(String fileName) {
-		//ArrayList<Question> questions = new ArrayList<Question>();
-		ClassLoader classLoader = getClass().getClassLoader();
-		File doc;//File doc
-		try {
-			doc = new File(classLoader.getResource(fileName).getFile());//doc = new File(classLoader.getResource(fileName).getFile()) doc = classLoader.getResourceAsStream(fileName)
-		} catch (Exception e) {
-			System.out.println("no file with specified name found | File Name: " + fileName);// TODO needs to be turned into a throw exception
-																	// statement
-			return;
-		}
-
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-
-		DocumentBuilder documentBuilder = null;
-		try {
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();// this needs to be changed to a forwarding throw
-		}
-		Document document = null;
-		try {
-			document = documentBuilder.parse(doc);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.println("Error: input stream didn't work");
-			return;
-		}
-
-		// find the label on the xml document
-		NodeList tmpNodeList = document.getElementsByTagName("input");// the label of the component
-		NodeList nodeList = document.getElementsByTagName("inputExpression");// assumes that the number of
-																				// inputExpression elements is the same
-																				// as the number of input elements
-		NodeList optionsList = document.getElementsByTagName("rule");
-		//NodeList attributeAns = document.getElementsByTagName("attributeAns");
-		
-		NodeList decisionIDNL = document.getElementsByTagName("decision");
-		Node decisionIDN = decisionIDNL.item(0);
-		Element decisionIDE = (Element) decisionIDN;
-		//System.out.println(decisionIDE.getAttribute("id"));
-
-		// This for loop find the questions and the type of the column
-		for (int i = 0; i < tmpNodeList.getLength(); i++) {
-			Node nNode = tmpNodeList.item(i);
-			Node node = nodeList.item(i);
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) nNode;
-				Element element = (Element) node;
-
-				String tmpQ = eElement.getAttribute("label");
-
-				Question tmp = new Question(tmpQ, Question.returnType(element.getAttribute("typeRef")), getTagValue("text", element, 0), decisionIDE.getAttribute("id"), decisionIDE.getAttribute("name"));
-				//System.out.println(getTagValue("text", element, 0));
-				//questions.add(tmp);
-				//System.out.println(tmp.getQuestion() + "  and the type:  " + tmp.returnTypeAsString());
-
-				if(tmp.getType() == Question.Type.STRING) {
-					getQuestionOptions(tmp, i, optionsList);
-				}
-				questions.add(tmp);
-			}
-		}
-	}
 	
-	public void interpreter(File doc) {
+	public void interpreter(InputStream doc) {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder documentBuilder = null;

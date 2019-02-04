@@ -12,6 +12,7 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Converter;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -60,7 +61,7 @@ public class OWLGraphConverter extends Converter
      * @param p_directed A boolean indicating whether the Prefuse graph needs to 
      * be directed.
      */
-    public OWLGraphConverter(File file, boolean p_directed)
+    public OWLGraphConverter(InputStream file, boolean p_directed)
     {
         super(file);
         init(p_directed);

@@ -39,7 +39,7 @@ public class Converter
      * Creates a new instance of Converter.
      * @param p_OWLFile The path to the OWL file which needs to be converted.
      */
-    public Converter(File file)
+    public Converter(InputStream file)
     {
         try {
 			load(file);
@@ -101,13 +101,13 @@ public class Converter
      * @param p_OWLFile The path to the OWL file which needs to be converted.
      * @throws FileNotFoundException 
      */
-    private void load(File file) throws FileNotFoundException
+    private void load(InputStream in) throws FileNotFoundException
     {
         m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
         
         
         
-        InputStream in =  new FileInputStream(file);
+        //InputStream in =  new FileInputStream(file);
         if (in == null)
         {
             throw new IllegalArgumentException("File: not found");
