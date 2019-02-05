@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,9 +25,10 @@ public class QuestionSelect extends JPanel{//select the answer to the question
 	private JComboBox<String> dropDownMenu;
 	
 	public QuestionSelect(String q, ArrayList<String> options, int selectedItemIndex) {
-		setPreferredSize(new Dimension(400, 90));
+		//setPreferredSize(new Dimension(400, 30));
 		initialize(q, options);
 		setSelectedItem(selectedItemIndex);
+		//setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 	}
 	
 	private String[] putOptions(ArrayList<String> options) {
