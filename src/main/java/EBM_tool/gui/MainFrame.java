@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 
 import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
@@ -81,13 +82,17 @@ public class MainFrame extends JFrame {
 		try {
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();// TODO: deal with errors
+			JOptionPane.showMessageDialog(MainFrame.this, "Error reading the ontology file", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 		Document document = null;
 		try {
 			document = documentBuilder.parse(file);
 		} catch (Exception e) {
 			System.out.println("Error: input stream didn't work");
+			JOptionPane.showMessageDialog(MainFrame.this, "Error with the input stream, ontology data might not be valid", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		return document;
@@ -243,7 +248,8 @@ public class MainFrame extends JFrame {
 			repaint();
 
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(MainFrame.this, "Could not load data from file", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -254,6 +260,10 @@ public class MainFrame extends JFrame {
 
 		RuleRelationSerial RRS = new RuleRelationSerial();
 		RRS.setRelations(CRRM.getRelations());
+		
+		InputStream tmp3 = new FileInputStream("./new_source.owl");
+		byte[] bytes = IOUtils.toByteArray(tmp3);
+		RRS.setOntology(bytes);
 
 		oos.writeObject(RRS);
 		oos.close();

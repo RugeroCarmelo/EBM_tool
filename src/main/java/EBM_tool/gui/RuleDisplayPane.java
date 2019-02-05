@@ -154,7 +154,7 @@ public class RuleDisplayPane extends JPanel {
 		pane.add(title);
 
 		getTheQuestions(CR);
-		TempAction(CR);
+		updateRecommendationAction(CR);
 		pane.add(RDP);
 
 		pane.setPreferredSize(new Dimension(550, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
@@ -195,7 +195,7 @@ public class RuleDisplayPane extends JPanel {
 					questions.get(i).getAnswerIndex());
 			tmpQS.addDetailListener(new DetailListener() {// listener for changes in selection
 				public void detailEventOccurred(DetailEvent e) {
-					TempAction(CR);
+					updateRecommendationAction(CR);
 				}
 			});
 			int borderSpace = 4;
@@ -225,7 +225,7 @@ public class RuleDisplayPane extends JPanel {
 		}
 	}
 
-	public void TempAction(Rule CR) {// TODO TempAction should be changed to a more efficient long term solution
+	public void updateRecommendationAction(Rule CR) {
 
 		for (int i = 0; i < questions.size(); i++) {
 			questions.get(i).setAnswer(questionSelects.get(i).getSelectedValue());
