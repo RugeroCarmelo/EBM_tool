@@ -8,6 +8,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
 
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Converter;
 
@@ -55,15 +56,18 @@ public class OWLGraphConverter extends Converter
      */
     private ArrayList<String> m_uselessType;
     
+    ConceptRuleRelationManager CRRM;
+    
     /**
      * Creates a new instance of OWLGraphConverter
      * @param p_OWLFile The path to the OWL file that needs to be converted.
      * @param p_directed A boolean indicating whether the Prefuse graph needs to 
      * be directed.
      */
-    public OWLGraphConverter(InputStream file, boolean p_directed)
+    public OWLGraphConverter(InputStream file, boolean p_directed, ConceptRuleRelationManager CRRM)
     {
         super(file);
+        this.CRRM = CRRM;
         init(p_directed);
     }
     
@@ -151,6 +155,10 @@ public class OWLGraphConverter extends Converter
         currNode.setString("URI", p_currentClass.getURI());
         currNode.setString("name", p_currentClass.getLocalName());
         currNode.setString("type", "class");
+        
+        if(CRRM.getRules(p_currentClass.getLocalName()).size() > 0) {
+        	currNode.setString("type", "rule");
+        }
         
         // Walk trough the subclasses of the current class.
         ExtendedIterator itClasses = p_currentClass.listSubClasses(true);

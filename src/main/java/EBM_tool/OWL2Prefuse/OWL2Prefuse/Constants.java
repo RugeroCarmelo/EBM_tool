@@ -18,7 +18,13 @@ public final class Constants
     /**
      * The color of nodes in the Prefuse visualization which represent OWL Classes.
      */
-    public final static int NODE_COLOR_CLASS = ColorLib.rgb(253, 211, 100);
+    public final static int NODE_COLOR_CLASS = ColorLib.rgb(255, 208, 84);
+    
+    /**
+     * 
+     */
+    public final static int NODE_COLOR_HAS_RULE = ColorLib.rgb(252, 225, 151);
+    //public final static int NODE_COLOR_HAS_RULE = ColorLib.rgb(255, 244, 214);
     
     /**
      * The color of nodes in the Prefuse visualization which represent OWL Individuals.

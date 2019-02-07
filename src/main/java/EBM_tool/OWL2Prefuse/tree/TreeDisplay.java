@@ -3,13 +3,10 @@ package EBM_tool.OWL2Prefuse.tree;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
 
-import EBM_tool.DetailListeners.ConceptSelectionEvent;
-import EBM_tool.DetailListeners.ConceptSelectionListener;
 import EBM_tool.DetailListeners.DetailEvent;
 import EBM_tool.DetailListeners.DetailListener;
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Constants;

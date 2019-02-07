@@ -83,12 +83,10 @@ public class RuleDisplayPane extends JPanel {
 		gc.weightx = 1;
 		gc.weighty = 0.2;
 		gc.gridx = 0;
-		// gc.insets = new Insets(0, 0, 0, 5);
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		pane.add(RDP, gc);
 
 		CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions);
-		// pane.setPreferredSize(new Dimension(550,
 		// CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
 		// setSize(new Dimension(550,
 		// CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));

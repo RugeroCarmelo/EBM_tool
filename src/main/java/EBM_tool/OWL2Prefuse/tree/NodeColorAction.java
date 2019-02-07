@@ -45,8 +45,9 @@ public class NodeColorAction extends ColorAction
         {
             if (p_item.getString("type") != null)
             {
-                if (p_item.getString("type").equals("class")) retval = Constants.NODE_COLOR_CLASS;
-                else if (p_item.getString("type").equals("individual")) retval = Constants.NODE_COLOR_INDIVIDUAL;
+                if (p_item.getString("type").contains("class")) retval = Constants.NODE_COLOR_CLASS;
+                else if (p_item.getString("type").contains("individual")) retval = Constants.NODE_COLOR_INDIVIDUAL;
+                else if(p_item.getString("type").contains("rule")) retval = Constants.NODE_COLOR_HAS_RULE;
             }
         }
         

@@ -4,6 +4,7 @@ import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
 
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Converter;
 
@@ -30,14 +31,16 @@ public class OWLTreeConverter extends Converter
      * The Prefuse tree.
      */
     private Tree m_tree;
+    private ConceptRuleRelationManager CRRM;
     
     /**
      * Creates a new instance of OWLTreeConverter.
      * @param p_OWLFile The path to the OWL file that needs to be converted.
      */
-    public OWLTreeConverter(InputStream file)
+    public OWLTreeConverter(InputStream file, ConceptRuleRelationManager CRRM)
     {
         super(file);
+        this.CRRM = CRRM;
         createTree();
     }
     
@@ -98,6 +101,11 @@ public class OWLTreeConverter extends Converter
         currNode.setString("URI", p_currentClass.getURI());
         currNode.setString("name", p_currentClass.getLocalName());
         currNode.setString("type", "class");
+        
+        if(CRRM.getRules(p_currentClass.getLocalName()).size() > 0) {
+        	currNode.setString("type", "rule");
+        }
+        
             
         // Walk trough the subclasses of the current class.
         ExtendedIterator itClasses = p_currentClass.listSubClasses(true);

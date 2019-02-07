@@ -136,14 +136,7 @@ public class DetailPanel extends JPanel {
 
 		pane.setPreferredSize(new Dimension(500, localHeight));// TODO: Calculate these numbers better;
 		scroll = new JScrollPane(pane);
-
-		if (dim.getHeight() > localHeight + 30) {
-			// scroll.setPreferredSize(new Dimension((int) dim.getWidth(), localHeight +
-			// 30));
-		} else {
-			// scroll.setPreferredSize(new Dimension((int) dim.getWidth(), (int)
-			// dim.getHeight() - 21));
-		}
+		scroll.getVerticalScrollBar().setUnitIncrement(10);
 
 		scroll.setBackground(new Color(254, 254, 254));
 		Border border = scroll.getBorder();

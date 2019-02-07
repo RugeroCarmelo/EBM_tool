@@ -96,11 +96,6 @@ public class OWLViewComp extends JPanel implements ActionListener {
 	private TreePanel m_treePanel;
 
 	/**
-	 * The action command for opening an ontology.
-	 */
-	private final static String OPEN_ONTOLOGY = "Open ontology";
-
-	/**
 	 * The action command for opening GraphML.
 	 */
 	private final static String OPEN_GRAPHML = "Open GraphML";
@@ -165,7 +160,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		OWLTreeConverter treeConverter = new OWLTreeConverter(tmp3);
+		OWLTreeConverter treeConverter = new OWLTreeConverter(tmp3, CRRM);
 		m_tree = treeConverter.getTree();
 
 		// Create a tree display.
@@ -183,7 +178,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		//m_treePanel.setPreferredSize(graphSize);
 
 		// Create a graph.
-		OWLGraphConverter graphConverter = new OWLGraphConverter(file, false);// change to false to remove arrows true
+		OWLGraphConverter graphConverter = new OWLGraphConverter(file, false, CRRM);// change to false to remove arrows true
 																				// to add arrows
 		m_graph = graphConverter.getGraph();
 
@@ -377,9 +372,10 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		return -1;
 	}
 
+	/*
 	public static JPanel makeOWLViewComp(InputStream file) {
 		// Create the tree from an OWL file.
-		OWLTreeConverter treeConverter = new OWLTreeConverter(file);
+		OWLTreeConverter treeConverter = new OWLTreeConverter(file, CRRM);
 		Tree m_tree = treeConverter.getTree();
 
 		// Create a tree display.
@@ -412,7 +408,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		m_Panel.setVisible(true);
 
 		return m_Panel;
-	}
+	}*/
 
 	public void fireConceptSelectionEvent(ConceptSelectionEvent event) {
 		Object[] listeners = listenerList.getListenerList();
