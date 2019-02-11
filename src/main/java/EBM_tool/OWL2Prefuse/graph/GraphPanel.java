@@ -1,7 +1,6 @@
 package EBM_tool.OWL2Prefuse.graph;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.BufferedOutputStream;
@@ -39,7 +38,9 @@ import prefuse.action.filter.GraphDistanceFilter;
  */
 public class GraphPanel extends JPanel implements ChangeListener, ExportableGraphic
 {
-    /**
+	private static final long serialVersionUID = -897362913404378424L;
+
+	/**
      * The Prefuse Display which takes care of displaying the Prefuse graph.
      */
     private GraphDisplay m_display;

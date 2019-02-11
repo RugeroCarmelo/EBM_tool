@@ -1,11 +1,6 @@
 package EBM_tool.DMNEngine;
 
-import java.io.File;
 import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,12 +9,20 @@ import org.w3c.dom.NodeList;
 
 public class DescriptionGetter {
 
+	/*
+	 * This class gets information from the xml (rdf owl format) ontology file,
+	 * currently it has function to facilitate getting comments definitions and
+	 * references
+	 */
 	private Document document;
 
 	public DescriptionGetter(Document document) {
 		this.document = document;
 	}
 
+	/*
+	 * gets information from an xml file
+	 */
 	public ArrayList<String> interpreter(String className, String tagName, String attributeName) {
 		if (document == null) {
 			return null;
@@ -30,7 +33,8 @@ public class DescriptionGetter {
 				Node classNode = classNodes.item(i);
 				if (classNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) classNode;
-					String name = filteredName(element.getAttribute("rdf:about"));
+					String name = filteredName(element.getAttribute("rdf:about"));// rdf:about contains the name of a
+																					// class
 					if (className.equals(name)) {
 						NodeList tmpList = element.getElementsByTagName(attributeName);
 						for (int j = 0; j < tmpList.getLength(); j++) {
@@ -44,21 +48,24 @@ public class DescriptionGetter {
 		}
 	}
 
+	// method to make getting certain information more convenient
 	public ArrayList<String> getComment(String className) {
-		// System.out.println("comment... " + className);
 		return interpreter(className, "owl:Class", "rdfs:comment");
 	}
 
+	// method to make getting certain information more convenient
 	public ArrayList<String> getDefinition(String className) {
-		// System.out.println("definition... " + className);
 		return interpreter(className, "owl:Class", "ontologies:definition");
 	}
 
+	// method to make getting certain information more convenient
 	public ArrayList<String> getReferences(String className) {
-		// System.out.println("references... " + className);
 		return interpreter(className, "owl:Class", "ontologies:reference");
 	}
 
+	// most of the time a class name contains a URL with mostly useless information,
+	// this method removes the useless information and leaves just the class name as
+	// it apear in the gui
 	private String filteredName(String unfilteredName) {
 		String name = unfilteredName;
 		name = name.substring(name.lastIndexOf("#") + 1);

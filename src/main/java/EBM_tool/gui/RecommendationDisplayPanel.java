@@ -1,5 +1,5 @@
 package EBM_tool.gui;
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -12,6 +12,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class RecommendationDisplayPanel extends JPanel {
+	/**
+	 * This class makes the panel which contains a text box with the recommendation
+	 * for a rule
+	 * 
+	 */
+	private static final long serialVersionUID = 3013314022439735890L;
 	private JLabel label;
 	private JPanel recPanel;
 	private JTextArea textArea;
@@ -22,7 +28,7 @@ public class RecommendationDisplayPanel extends JPanel {
 		label.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 0));
 		recPanel = new JPanel();
 		setPreferredSize(new Dimension(500, 200));
-		textArea = new JTextArea(3, 36);
+		textArea = new JTextArea(3, 34);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setEditable(false);
@@ -35,7 +41,7 @@ public class RecommendationDisplayPanel extends JPanel {
 
 		setLayout(new GridBagLayout());
 		setBackground(new Color(254, 254, 254));
-		
+
 		GridBagConstraints gc = new GridBagConstraints();
 
 		/// first column
@@ -54,7 +60,7 @@ public class RecommendationDisplayPanel extends JPanel {
 		gc.gridy = 0;
 		add(recPanel, gc);
 	}
-	
+
 	public void setRecommendation(String recommendation) {
 		textArea.setText(recommendation);
 	}

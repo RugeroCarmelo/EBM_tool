@@ -8,7 +8,6 @@ import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
 
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Converter;
 
-import java.io.File;
 import java.io.InputStream;
 
 import prefuse.data.Node;

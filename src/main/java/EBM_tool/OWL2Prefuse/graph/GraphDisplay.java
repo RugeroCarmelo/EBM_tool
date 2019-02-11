@@ -50,12 +50,14 @@ import prefuse.visual.expression.InGroupPredicate;
  * SimpleGraphjava created 3 januari 2007, 11:17
  * <p/>
  * Copyright &copy 2006 Jethro Borsje
- * @author <a href="mailto:info@jborsje.nl">Jethro Borsje</a>
+ * @author <a href="mailto:info@jborsje.nl">Jethro Borsje adapted by Tomas</a>
  * @version $$Revision:$$, $$Date:$$
  */
 public class GraphDisplay extends Display
 {
-    /**
+	private static final long serialVersionUID = -4073199176601553619L;
+
+	/**
      * Create data description of labels, setting colors, and fonts ahead of time
      */
     private static final Schema DECORATOR_SCHEMA = PrefuseLib.getVisualItemSchema();
@@ -361,19 +363,9 @@ public class GraphDisplay extends Display
         m_URILabel.setBackground(Constants.BACKGROUND);
         m_URILabel.setForeground(Constants.FOREGROUND);
         
-        // The control listener for changing the title of a node at a mouseover event.
+        // The control listener for changing the title of a node at a mouseclick event.
         this.addControlListener(new ControlAdapter()
         {
-        	/**
-            public void itemEntered(VisualItem item, MouseEvent e)
-            {
-                if (item.canGetString("URI")) m_URILabel.setText(item.getString("URI"));
-            }
-            public void itemExited(VisualItem item, MouseEvent e)
-            {
-                m_URILabel.setText(null);
-            }
-            */
             public void itemClicked(VisualItem item, MouseEvent e) {
             	String tmp = item.getString("URI");
             	fireDetailEvent(new DetailEvent(item, tmp));

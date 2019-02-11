@@ -1,4 +1,5 @@
 package EBM_tool.gui;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ import javax.swing.border.Border;
 import EBM_tool.DMNEngine.DescriptionGetter;
 
 public class DescriptionDisplay extends JPanel {
+	/**
+	 * This class is used to make the panels that display Descriptions about a
+	 * concept for example the description or references
+	 */
+	private static final long serialVersionUID = -2235738429937906941L;
 	private JPanel pane;
 	private int numberOfLabels = 0;
 	private int totalHeight = 0;
@@ -77,8 +83,8 @@ public class DescriptionDisplay extends JPanel {
 			//
 
 			pane.add(comp);
-			numberOfLabels = numberOfLabels + list.get(i).length() / 150 + 1;// TODO: There has to be a better way of
-																				// doing this
+			numberOfLabels = numberOfLabels + list.get(i).length() / 150 + 1;// TODO: better way to find the size of the
+																				// panels
 		}
 
 		pane.setPreferredSize(new Dimension(550, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));

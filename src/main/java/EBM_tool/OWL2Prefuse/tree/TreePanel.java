@@ -35,7 +35,9 @@ import prefuse.Constants;
  */
 public class TreePanel extends JPanel implements ActionListener, ExportableGraphic
 {
-    /**
+	private static final long serialVersionUID = -8165702852610633094L;
+
+	/**
      * The Display which takes care of displaying the Prefuse tree.
      */
     protected TreeDisplay m_display;

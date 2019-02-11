@@ -1,6 +1,5 @@
 package com.tom.EBM_RuleManager.Model;
 
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,7 +7,8 @@ public class Rule implements Serializable{
 	
 
 	/**
-	 * 
+	 * This class stores the information about a rule including the rule file info to be used when a recommendation is processed
+	 * Needs to be the same as the equivalent class in the protege plugin so that the serialized data is loaded properly
 	 */
 	private static final long serialVersionUID = -775274536756044825L;
 	private String id;
@@ -17,10 +17,9 @@ public class Rule implements Serializable{
 	private String ruleName;
 	private String information;
 	private byte[] dmn;
-	//private File file;
 	
-	private ArrayList<String> ruleAnswers = new ArrayList<>();//***
-	private String recommendation;//***
+	private ArrayList<String> ruleAnswers = new ArrayList<>();
+	private String recommendation;
 
 	
 	public Rule(String ruleLocation, String topic, String ruleName, String info, String ID, byte[] dmn) {
@@ -32,7 +31,7 @@ public class Rule implements Serializable{
 		this.id = ID;
 		this.dmn = dmn;
 		
-		recommendation = "";//*
+		recommendation = "";
 	}
 	
 	public void setInformation(String information) {
@@ -64,8 +63,6 @@ public class Rule implements Serializable{
 		return dmn;
 	}
 	
-	//____________________________________
-	
 	public void setAnswers(ArrayList<String> ruleAnswers) {
 		this.ruleAnswers = ruleAnswers;
 	}
@@ -86,8 +83,7 @@ public class Rule implements Serializable{
 		if (index < ruleAnswers.size()) {
 			return ruleAnswers.get(index);
 		}else{
-			//System.out.println("ERROR in CR");//check that this behaves the way it is supposed to
-			return null;//this should be a throw statement
+			return null;
 		}
 	}
 }

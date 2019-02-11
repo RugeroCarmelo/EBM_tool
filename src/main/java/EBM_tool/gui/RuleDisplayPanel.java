@@ -28,9 +28,9 @@ import EBM_tool.DetailListeners.DetailListener;
 import EBM_tool.DetailListeners.RecommendationChangeEvent;
 import EBM_tool.DetailListeners.RecommendationChangeListener;
 
-public class RuleDisplayPane extends JPanel {
+public class RuleDisplayPanel extends JPanel {
 	/**
-	 * 
+	 * Panel that contains all the information on a rule including all the provisions for user input
 	 */
 	private static final long serialVersionUID = -7447078625615369571L;
 
@@ -46,7 +46,7 @@ public class RuleDisplayPane extends JPanel {
 	ArrayList<Question> questions;
 	private JButton infoBtn;
 
-	public RuleDisplayPane(Rule CR) {
+	public RuleDisplayPanel(Rule CR) {
 		RDP = new RecommendationDisplayPanel("");
 		ruleName = new JLabel("");
 		initialize(CR);
@@ -87,9 +87,6 @@ public class RuleDisplayPane extends JPanel {
 		pane.add(RDP, gc);
 
 		CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions);
-		// CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
-		// setSize(new Dimension(550,
-		// CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
 		Border placardBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY);
 
 		pane.setBorder(placardBorder);
@@ -97,7 +94,7 @@ public class RuleDisplayPane extends JPanel {
 		add(pane);
 	}
 
-	public RuleDisplayPane() {
+	public RuleDisplayPanel() {
 		ruleName = new JLabel("No rules to display");
 		pane = new JPanel();
 		pane.setPreferredSize(new Dimension(550, 300));
@@ -164,7 +161,7 @@ public class RuleDisplayPane extends JPanel {
 	}
 
 	private int CalculateHeightBasedOnNumberOfQuestions(int nOfQuestions) {
-		int height = nOfQuestions * 38 + 90;
+		int height = nOfQuestions * 38 + 93;
 		totalHeight = height + 15;
 		return height;
 	}
@@ -183,7 +180,7 @@ public class RuleDisplayPane extends JPanel {
 			System.out.println("ERROR: There are no questions");
 			return;
 		}
-		ruleName.setText(questions.get(0).getRuleName());// TODO what if there aren't any questions
+		ruleName.setText(questions.get(0).getRuleName());
 
 		for (int i = 0; i < numberOfQuestions; i++) {
 			if (i < CR.getAnswers().size()) {

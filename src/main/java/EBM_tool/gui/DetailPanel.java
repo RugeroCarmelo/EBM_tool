@@ -19,7 +19,8 @@ import EBM_tool.DetailListeners.RecommendationChangeListener;
 
 public class DetailPanel extends JPanel {
 	/**
-	 * 
+	 * This class makes the view component on the right which has all the information
+	 * panels about the selected concept
 	 */
 	private static final long serialVersionUID = 6949183290895349273L;
 
@@ -40,9 +41,6 @@ public class DetailPanel extends JPanel {
 	public void initialize(Dimension dim, Relation CRR, org.w3c.dom.Document document) {
 		pane = new JPanel();
 		Color defaultColor = pane.getBackground();
-		//pane.setPreferredSize(dim);
-		//pane.setBackground(new Color(254, 254, 254));
-		// pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.PAGE_START;
@@ -58,7 +56,6 @@ public class DetailPanel extends JPanel {
 		/////// Definitions//////
 		DescriptionDisplay definitions = new DescriptionDisplay(CRR.getConceptName(), document,
 				DescriptionDisplay.Type.DEFINITION);
-		// pane.add(definitions);
 		gc.anchor = GridBagConstraints.CENTER;
 		gc.weightx = 0.1;
 		gc.weighty = 0.1;
@@ -72,14 +69,12 @@ public class DetailPanel extends JPanel {
 		if (CRR.size() > 0) {
 			for (int i = 0; i < CRR.size(); i++) {
 				if (CRR.getRuleAtIndex(i).getFile() != null) {
-					RuleDisplayPane tmp = new RuleDisplayPane(CRR.getRuleAtIndex(i));
+					RuleDisplayPanel tmp = new RuleDisplayPanel(CRR.getRuleAtIndex(i));
 					tmp.addRecommendationChangeListener(new RecommendationChangeListener() {
 						public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
 							fireRecommendationChangeEvent(event);
 						}
 					});
-					// pane.add(tmp);
-					// new row
 					gc.gridy++;
 					gc.weightx = 1;
 					gc.weighty = 0.2;
@@ -91,9 +86,7 @@ public class DetailPanel extends JPanel {
 				}
 			}
 		} else {
-			RuleDisplayPane tmp = new RuleDisplayPane();
-			// pane.add(tmp);
-			// new row
+			RuleDisplayPanel tmp = new RuleDisplayPanel();
 			gc.gridy++;
 			gc.weightx = 1;
 			gc.weighty = 0.2;
@@ -107,8 +100,6 @@ public class DetailPanel extends JPanel {
 		/////// Comment/////////
 		DescriptionDisplay comments = new DescriptionDisplay(CRR.getConceptName(), document,
 				DescriptionDisplay.Type.COMMENT);
-		// pane.add(comments);
-		// new row
 		gc.gridy++;
 		gc.weightx = 1;
 		gc.weighty = 0.2;
@@ -122,19 +113,17 @@ public class DetailPanel extends JPanel {
 		/////// Refrences//////
 		DescriptionDisplay references = new DescriptionDisplay(CRR.getConceptName(), document,
 				DescriptionDisplay.Type.REFERENCE);
-		// pane.add(references);
-		// new row
 		gc.gridy++;
 		gc.weightx = 1;
 		gc.weighty = 10;
 		gc.gridx = 0;
 		gc.anchor = GridBagConstraints.CENTER;
 		pane.add(references, gc);
-		
+
 		localHeight += references.getTotalHeight();
 		///////
 
-		pane.setPreferredSize(new Dimension(500, localHeight));// TODO: Calculate these numbers better;
+		pane.setPreferredSize(new Dimension(500, localHeight));// TODO: Calculate this better
 		scroll = new JScrollPane(pane);
 		scroll.getVerticalScrollBar().setUnitIncrement(10);
 

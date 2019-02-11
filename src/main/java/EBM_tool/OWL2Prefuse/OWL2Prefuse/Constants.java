@@ -10,7 +10,7 @@ import prefuse.util.ColorLib;
  * Constants.java created 3 januari 2007, 15:05
  * <p/>
  * Copyright &copy 2006 Jethro Borsje
- * @author <a href="mailto:info@jborsje.nl">Jethro Borsje</a>
+ * @author <a href="mailto:info@jborsje.nl">Jethro Borsje adapted by Tomas</a>
  * @version $$Revision:$$, $$Date:$$
  */
 public final class Constants
@@ -21,10 +21,9 @@ public final class Constants
     public final static int NODE_COLOR_CLASS = ColorLib.rgb(255, 208, 84);
     
     /**
-     * 
+     * The color of nodes in the Prefuse visualization which have rules related to them
      */
     public final static int NODE_COLOR_HAS_RULE = ColorLib.rgb(252, 225, 151);
-    //public final static int NODE_COLOR_HAS_RULE = ColorLib.rgb(255, 244, 214);
     
     /**
      * The color of nodes in the Prefuse visualization which represent OWL Individuals.

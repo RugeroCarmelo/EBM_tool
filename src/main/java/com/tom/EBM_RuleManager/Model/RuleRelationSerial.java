@@ -1,9 +1,6 @@
 package com.tom.EBM_RuleManager.Model;
 
-import java.io.File;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RuleRelationSerial implements Serializable {
@@ -12,7 +9,8 @@ public class RuleRelationSerial implements Serializable {
 	private String info;
 	private byte[] ontology;
 	/**
-	 * 
+	 * This classed is used to store the data that is Serialized and writen to a file or loaded from a file
+	 * needs to be the same as the equivalend class in the protgege plugin so that the serialized data is loaded properly
 	 */
 	private static final long serialVersionUID = -5263862396186518446L;
 
@@ -46,19 +44,10 @@ public class RuleRelationSerial implements Serializable {
 	}
 
 	public List<Relation> getRelations() {
-		/*
-		 * System.out.println("get"); for(int i = 0; i < relations.size(); i++) {
-		 * System.out.println(relations.get(i).getConceptName()); }
-		 */
 		return relations;
 	}
 
 	public void setRelations(List<Relation> relations) {
-		// System.out.println("set");
 		this.relations = relations;
-		/*
-		 * for(int i = 0; i < this.relations.size(); i++) {
-		 * System.out.println(this.relations.get(i).getConceptName()); }
-		 */
 	}
 }

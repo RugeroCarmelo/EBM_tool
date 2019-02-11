@@ -3,6 +3,12 @@ package EBM_tool.DMNEngine;
 import java.util.ArrayList;
 
 public class Question {
+	/*
+	 * This class is used to store information about a column (these have a title
+	 * which tends to be a question) from a rule from a DMN file. The information is
+	 * then used by the gui
+	 * Currently only the type string is supported
+	 */
 	private String question = "";
 	private ArrayList<String> strOptions = new ArrayList<>();// if the type is a string;
 	private ArrayList<Integer> intOptions = new ArrayList<>();// if the type is a number
@@ -78,7 +84,6 @@ public class Question {
 			}
 			if (!repeated && options.get(i).length() > 0) {
 				strOptions.add(options.get(i));
-				// System.out.println(options.get(i));
 			}
 		}
 		setAnswer(strOptions.get(0));
@@ -96,7 +101,7 @@ public class Question {
 		if (type == Type.STRING) {
 			return strOptions;
 		} else {
-			System.out.println("ERROR: not a string type");// TODO: make this a throw statement
+			System.out.println("ERROR: not a string type");
 			throw new ArithmeticException("error message");
 		}
 	}
@@ -105,7 +110,7 @@ public class Question {
 		if (type == Type.STRING) {
 			return intOptions;
 		} else {
-			System.out.println("ERROR: not a string type");// TODO: make this a throw statement
+			System.out.println("ERROR: not a string type");
 			throw new ArithmeticException("error message");
 		}
 	}

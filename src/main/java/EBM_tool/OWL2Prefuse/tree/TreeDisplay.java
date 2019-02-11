@@ -55,12 +55,14 @@ import prefuse.visual.sort.TreeDepthItemSorter;
  * <p/>
  * Copyright &copy 2006 Jethro Borsje
  * 
- * @author <a href="mailto:info@jborsje.nl">Jethro Borsje</a>
+ * @author <a href="mailto:info@jborsje.nl">Jethro Borsje adapted by Tomas</a>
  * @version $$Revision:$$, $$Date:$$
  */
 public class TreeDisplay extends Display
 {
-    /**
+	private static final long serialVersionUID = -3006530305984315582L;
+
+	/**
      * The label renderer for nodes. This renderer shows the nodes with a lable 
      * on them.
      */
@@ -352,21 +354,9 @@ public class TreeDisplay extends Display
         m_URILabel.setBackground(Constants.BACKGROUND);
         m_URILabel.setForeground(Constants.FOREGROUND);
         
-        // The control listener for changing the title of a node at a mouseover event.
+        // The control listener for changing the title of a node at a mouseclick event.
         this.addControlListener(new ControlAdapter()
         {
-        	/**
-            public void itemEntered(VisualItem item, MouseEvent e)
-            {
-                if (item.canGetString("URI")) m_URILabel.setText(item.getString("URI"));
-                //System.out.print("Hello World\n");
-            }
-            public void itemExited(VisualItem item, MouseEvent e)
-            {
-                m_URILabel.setText(null);
-                //System.out.print("Hello World2\n");
-            }
-            */
             public void itemClicked(VisualItem item, MouseEvent e) {
             	String tmp = item.getString("URI");
             	fireDetailEvent(new DetailEvent(item, tmp));

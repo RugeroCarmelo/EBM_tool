@@ -13,7 +13,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ScrapeDMN {
-	// private ArrayList<String> labels = new ArrayList<>();
+	/*
+	 * This class is used to get the information for the class Question from a DMN file with a rule
+	 * Currently columns in the DMN file can only be of the type string
+	 */
 	private ArrayList<Question> questions = new ArrayList<Question>();
 	
 	public void interpreter(InputStream doc) {
@@ -23,13 +26,13 @@ public class ScrapeDMN {
 		try {
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();// this needs to be changed to a forwarding throw
+			e.printStackTrace();
 		}
 		Document document = null;
 		try {
 			document = documentBuilder.parse(doc);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			System.out.println("Error: input stream didn't work");
 			return;
 		}
@@ -40,12 +43,10 @@ public class ScrapeDMN {
 																				// inputExpression elements is the same
 																				// as the number of input elements
 		NodeList optionsList = document.getElementsByTagName("rule");
-		//NodeList attributeAns = document.getElementsByTagName("attributeAns");
 		
 		NodeList decisionIDNL = document.getElementsByTagName("decision");
 		Node decisionIDN = decisionIDNL.item(0);
 		Element decisionIDE = (Element) decisionIDN;
-		//System.out.println(decisionIDE.getAttribute("id"));
 
 		// This for loop find the questions and the type of the column
 		for (int i = 0; i < tmpNodeList.getLength(); i++) {
@@ -58,10 +59,6 @@ public class ScrapeDMN {
 				String tmpQ = eElement.getAttribute("label");
 
 				Question tmp = new Question(tmpQ, Question.returnType(element.getAttribute("typeRef")), getTagValue("text", element, 0), decisionIDE.getAttribute("id"), decisionIDE.getAttribute("name"));
-				//System.out.println(getTagValue("text", element, 0));
-				//questions.add(tmp);
-				//System.out.println(tmp.getQuestion() + "  and the type:  " + tmp.returnTypeAsString());
-
 				if(tmp.getType() == Question.Type.STRING) {
 					getQuestionOptions(tmp, i, optionsList);
 				}
@@ -71,7 +68,6 @@ public class ScrapeDMN {
 	}
 
 	private static String getTagValue(String tag, Element element, int index) {
-		// System.out.println(index);
 		NodeList nodeList = element.getElementsByTagName(tag).item(index).getChildNodes();
 		Node node = (Node) nodeList.item(0);
 		if (node != null) {
@@ -88,7 +84,6 @@ public class ScrapeDMN {
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
-				//System.out.println(" option: " + getTagValue("text", element, index));
 				tmpArray.add(getTagValue("text", element, index).replaceAll("\"", ""));//remove '"'
 			}
 		}

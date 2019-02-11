@@ -3,13 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConceptRuleRelationManager {
-	private ArrayList<Relation> relations = new ArrayList<Relation>();
+	private ArrayList<Relation> relations;
 
 	public ConceptRuleRelationManager() {
+		relations = new ArrayList<Relation>();
 	}
 
 	public void add(Relation CRR) {
-		if (findName(CRR.getConceptName()) == -1) {
+		if (findName(CRR.getConceptName()) == -1) {//check if this relation already exists
 			relations.add(CRR);
 		}
 	}
@@ -17,7 +18,6 @@ public class ConceptRuleRelationManager {
 	public void setRelations(List<Relation> c) {
 		relations.clear();
 		relations.addAll(c);
-		//relations = c;
 	}
 	
 	public ArrayList<Relation> getRelations(){
@@ -28,6 +28,9 @@ public class ConceptRuleRelationManager {
 		return relations.size();
 	}
 	
+	/*
+	 * returns a list of rules for the concept
+	 */
 	public ArrayList<Rule> getRules(String name) {
 		int tmp = findName(name);
 		if(tmp >= 0) {
@@ -37,6 +40,9 @@ public class ConceptRuleRelationManager {
 		}
 	}
 	
+	/*
+	 * returns relation for the concept
+	 */
 	public Relation getRelation(String name) {
 		int tmp = findName(name);
 		if(tmp >= 0) {
@@ -79,23 +85,23 @@ public class ConceptRuleRelationManager {
 		return false;
 	}
 	
-	public ArrayList<Rule> getAllConceptRules(){
-		ArrayList<Rule> conceptRules = new ArrayList<Rule>();
+	public ArrayList<Rule> getAllRules(){
+		ArrayList<Rule> rules = new ArrayList<Rule>();
 		Relation CRR;
 		for(int i = 0; i < relations.size(); i++) {
 			CRR = relations.get(i);
 			for(int j = 0; j < CRR.size(); j++) {
-				if(!conceptRules.contains(CRR.getRuleAtIndex(j))) {
-					conceptRules.add(CRR.getRuleAtIndex(j));
+				if(!rules.contains(CRR.getRuleAtIndex(j))) {
+					rules.add(CRR.getRuleAtIndex(j));
 				}
 			}
 		}
-		return conceptRules;
+		return rules;
 	}
 	
 	public ArrayList<String> getAllTopics(){
 		ArrayList<String> topics = new ArrayList<>();
-		ArrayList<Rule> conceptRules = getAllConceptRules();
+		ArrayList<Rule> conceptRules = getAllRules();
 		for(int i = 0; i < conceptRules.size(); i++) {
 			if(findIndex(topics, conceptRules.get(i).getTopic()) == -1) {
 				topics.add(conceptRules.get(i).getTopic());
@@ -104,8 +110,8 @@ public class ConceptRuleRelationManager {
 		return topics;
 	}
 	
-	public ArrayList<Rule> getRulesWithTopic(String topic){
-		ArrayList<Rule> conceptRules = getAllConceptRules();
+	public ArrayList<Rule> findRules(String topic){
+		ArrayList<Rule> conceptRules = getAllRules();
 		ArrayList<Rule> tmpConceptRules = new ArrayList<Rule>();
 		for(int i = 0; i < conceptRules.size(); i++) {
 			if( conceptRules.get(i).getTopic().equals(topic) && (!tmpConceptRules.contains(conceptRules.get(i)))) {
@@ -115,24 +121,24 @@ public class ConceptRuleRelationManager {
 		return tmpConceptRules;
 	}
 	
-	public ArrayList<Rule> getRulesWithRecommendation(ArrayList<Rule> list, String recommendation){
-		ArrayList<Rule> tmpConceptRules = new ArrayList<Rule>();
+	public ArrayList<Rule> findRules(ArrayList<Rule> list, String recommendation){
+		ArrayList<Rule> tmpRules = new ArrayList<Rule>();
 		for(int i = 0; i < list.size(); i++) {
-			if( list.get(i).getRecommendation().equals(recommendation) && (!tmpConceptRules.contains(list.get(i)))) {
-				tmpConceptRules.add(list.get(i));
+			if( list.get(i).getRecommendation().equals(recommendation) && (!tmpRules.contains(list.get(i)))) {
+				tmpRules.add(list.get(i));
 			}
 		}
-		return tmpConceptRules;
+		return tmpRules;
 	}
 	
 	public ArrayList<Rule> findRules(ArrayList<Rule> list, String recommendation, String name){
-		ArrayList<Rule> tmpConceptRules = new ArrayList<Rule>();
+		ArrayList<Rule> tmpRules = new ArrayList<Rule>();
 		for(int i = 0; i < list.size(); i++) {
-			if( list.get(i).getRecommendation().equals(recommendation) && list.get(i).getRuleName().equals(name) && (!tmpConceptRules.contains(list.get(i)))) {
-				tmpConceptRules.add(list.get(i));
+			if( list.get(i).getRecommendation().equals(recommendation) && list.get(i).getRuleName().equals(name) && (!tmpRules.contains(list.get(i)))) {
+				tmpRules.add(list.get(i));
 			}
 		}
-		return tmpConceptRules;
+		return tmpRules;
 	}
 	
 	private int findIndex(ArrayList<String> list, String term) {

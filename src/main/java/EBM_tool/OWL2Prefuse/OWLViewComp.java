@@ -50,7 +50,7 @@ import prefuse.util.io.SimpleFileFilter;
  * <p/>
  * Copyright &copy 2006 Jethro Borsje
  *
- * @author <a href="mailto:info@jborsje.nl">Jethro Borsje</a>
+ * @author <a href="mailto:info@jborsje.nl">Jethro Borsje adapted by Tomas</a>
  * @version $$Revision:$$, $$Date:$$
  */
 public class OWLViewComp extends JPanel implements ActionListener {
@@ -157,7 +157,6 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		try {
 			tmp3 = new FileInputStream("./new_source.owl");//file needs to be reloaded otherwise the graph view is not created for some reason
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		OWLTreeConverter treeConverter = new OWLTreeConverter(tmp3, CRRM);
@@ -241,6 +240,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		m_tabbedPane.repaint();
 	}
 
+	//This creates the summary panel which has a summary of all the recommendations and which rules recommended them 
 	public void summaryPanel(final ConceptRuleRelationManager CRRM) {
 		final Tree tree = new Tree();
 		// Add the appropriate columns.
@@ -256,50 +256,47 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		rootNode.setString("name", "Recommendations");
 		rootNode.setString("type", "class");
 
-		//Relation CRR;
-		// ArrayList<ConceptRule> CRList = CRRM.getAllConceptRules();
 		ArrayList<String> topics = CRRM.getAllTopics();
 
-		// System.out.println("This is the recommendation... " +
-		// CRRM.getRelation("People").getRuleAtIndex(0).getRecommendation());
-
+		//add the topics
 		for (int i = 0; i < topics.size(); i++) {
 			currTopicNode = tree.addChild(rootNode);
 			currTopicNode.setString("URI", "TOPIC#" + topics.get(i));
 			currTopicNode.setString("name", topics.get(i));
 			currTopicNode.setString("type", "class");
 
-			// System.out.println(topics.get(i));
 
-			ArrayList<Rule> CRList = CRRM.getRulesWithTopic(topics.get(i));
+			ArrayList<Rule> CRList = CRRM.findRules(topics.get(i));
 			ArrayList<String> recommendations = findRecommendations(CRList);
 
+			//add recommendations
 			for (int j = 0; j < recommendations.size(); j++) {
 				currDecisionNode = tree.addChild(currTopicNode);
 				currDecisionNode.setString("URI", "Recommendation" + "#" + topics.get(i) + "#" + recommendations.get(j));
 				currDecisionNode.setString("name", recommendations.get(j));
 				currDecisionNode.setString("type", "class");
-				// System.out.println(recommendations.get(j));
 				ArrayList<String> names = findNames(CRList, recommendations.get(j));
 
+				//add the rules which suggest the recommendations
 				for (int tmp = 0; tmp < names.size(); tmp++) {
 					currRuleName = tree.addChild(currDecisionNode);
 					currRuleName.setString("URI", "Name_of_the_rules" + "|" + topics.get(i) + "|" + "#" + recommendations.get(j) + "#" + names.get(tmp));
 					currRuleName.setString("name", names.get(tmp));
 					currRuleName.setString("type", "individual");
-					// System.out.println(names.get(tmp));
 				}
 			}
 		}
 
+		//create tree display
 		TreeDisplay treeDisp = new TreeDisplay(tree);
 		treeDisp.addDetailListener(new DetailListener() {
 			public void detailEventOccurred(DetailEvent event) {
+				//fire an event which contains the rules which are related to the selected node on the Summary Panel display
 				String tmp = event.getText();
-				//tmp = tmp.substring(tmp.lastIndexOf("#") + 1);
-				// CRRM.getRulesWithTopic(topic);
-				if(tmp.contains("TOPIC")) {
-					ArrayList<Rule> CRList = CRRM.getRulesWithTopic(tmp.substring(tmp.lastIndexOf("#") + 1));
+				if(tmp.equals("Recommendations")) {
+					
+				}else if(tmp.contains("TOPIC")) {
+					ArrayList<Rule> CRList = CRRM.findRules(tmp.substring(tmp.lastIndexOf("#") + 1));
 					Relation CRR = new Relation(tmp.substring(tmp.lastIndexOf("#") + 1));
 					for(int i = 0; i < CRList.size(); i++) {
 						CRR.addRule(CRList.get(i));
@@ -308,8 +305,8 @@ public class OWLViewComp extends JPanel implements ActionListener {
 				}else if(tmp.contains("Recommendation")) {
 					String rec = tmp.substring(tmp.lastIndexOf("#") + 1);
 					String topic = tmp.substring((tmp.indexOf("#") + 1), tmp.lastIndexOf("#"));
-					ArrayList<Rule> CRList = CRRM.getRulesWithTopic(topic);
-					CRList = CRRM.getRulesWithRecommendation(CRList, rec);
+					ArrayList<Rule> CRList = CRRM.findRules(topic);
+					CRList = CRRM.findRules(CRList, rec);
 					Relation CRR = new Relation("");
 					for(int i = 0; i < CRList.size(); i++) {
 						CRR.addRule(CRList.get(i));
@@ -319,7 +316,7 @@ public class OWLViewComp extends JPanel implements ActionListener {
 					String rec = tmp.substring((tmp.indexOf("#") + 1), tmp.lastIndexOf("#"));
 					String topic = tmp.substring((tmp.indexOf("|") + 1), tmp.lastIndexOf("|"));
 					String name = tmp.substring(tmp.lastIndexOf("#") + 1);
-					ArrayList<Rule> CRList = CRRM.getRulesWithTopic(topic);
+					ArrayList<Rule> CRList = CRRM.findRules(topic);
 					CRList = CRRM.findRules(CRList, rec, name);
 					Relation CRR = new Relation(tmp.substring(tmp.lastIndexOf("#") + 1));
 					for(int i = 0; i < CRList.size(); i++) {
@@ -332,7 +329,6 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 		// Create a panel for the tree display.
 		TreePanel m_graphPanel2 = new TreePanel(treeDisp, LEGEND, HOPS_CONTROL_WIDGET);
-		//m_graphPanel2.setPreferredSize(graphSize);
 		summaryTreePanel = m_graphPanel2;
 	}
 
@@ -372,44 +368,6 @@ public class OWLViewComp extends JPanel implements ActionListener {
 		return -1;
 	}
 
-	/*
-	public static JPanel makeOWLViewComp(InputStream file) {
-		// Create the tree from an OWL file.
-		OWLTreeConverter treeConverter = new OWLTreeConverter(file, CRRM);
-		Tree m_tree = treeConverter.getTree();
-
-		// Create a tree display.
-		TreeDisplay treeDisp = new TreeDisplay(m_tree);
-
-		// Create a panel for the tree display.
-		TreePanel m_treePanel = new TreePanel(treeDisp, LEGEND, ORIENTATION_CONTROL_WIDGET);
-
-		// Create a graph.
-		OWLGraphConverter graphConverter = new OWLGraphConverter(file, true);
-		Graph m_graph = graphConverter.getGraph();
-
-		// Create a graph display.
-		GraphDisplay graphDisp = new GraphDisplay(m_graph, GRAPH_DISTANCE_FILTER);
-
-		GraphPanel m_graphPanel = new GraphPanel(graphDisp, LEGEND, HOPS_CONTROL_WIDGET);
-
-		JTabbedPane m_tabbedPane = new JTabbedPane();
-		m_tabbedPane.addTab("Tree view", m_treePanel);
-		m_tabbedPane.setToolTipTextAt(0, "A display of the tree.");
-		m_tabbedPane.setMnemonicAt(0, KeyEvent.VK_T);
-
-		m_tabbedPane.addTab("Graph view", m_graphPanel);
-		m_tabbedPane.setToolTipTextAt(1, "A display of the graph.");
-		m_tabbedPane.setMnemonicAt(1, KeyEvent.VK_G);
-
-		// Create the frame which shows the application.
-		JPanel m_Panel = new JPanel();
-		m_Panel.add(m_tabbedPane);
-		m_Panel.setVisible(true);
-
-		return m_Panel;
-	}*/
-
 	public void fireConceptSelectionEvent(ConceptSelectionEvent event) {
 		Object[] listeners = listenerList.getListenerList();
 
@@ -448,16 +406,6 @@ public class OWLViewComp extends JPanel implements ActionListener {
 
 	public JPanel getPanel() {
 		return m_Panel;
-	}
-
-	/**
-	 * This methods starts the demo.
-	 * 
-	 * @param args the command line arguments
-	 */
-	public static void main(String[] args) {
-		// Start the demo application.
-		// OWLViewComp example = new OWLViewComp();
 	}
 
 	/**

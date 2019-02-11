@@ -13,7 +13,7 @@ import prefuse.visual.VisualItem;
  * NodeColorAction.java created 2 januari 2007, 14:45
  * <p/>
  * Copyright &copy 2006 Jethro Borsje
- * @author <a href="mailto:info@jborsje.nl">Jethro Borsje</a>
+ * @author <a href="mailto:info@jborsje.nl">Jethro Borsje adapted by Tomas</a>
  * @version $$Revision:$$, $$Date:$$
  */
 public class NodeColorAction extends ColorAction

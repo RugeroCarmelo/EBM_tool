@@ -12,7 +12,6 @@ import com.tom.EBM_RuleManager.Model.ConceptRuleRelationManager;
 
 import EBM_tool.OWL2Prefuse.OWL2Prefuse.Converter;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;

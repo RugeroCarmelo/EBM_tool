@@ -37,39 +37,40 @@ import java.io.OutputStream;
 
 public class MainFrame extends JFrame {
 	/**
-	 * 
+	 * This class creates the Main window, with 2 main view components:
+	 * 	Detail panel - the right hand side panel that includes the details about the selected node in theOntology view component
+	 * 	Ontology view component - left hand side component that contains a visual representation of the ontology
 	 */
 	private static final long serialVersionUID = 2081948293235131176L;
 
-	private DetailPanel pane;
+	private DetailPanel detailPanel;
 	private ConceptRuleRelationManager CRRM = new ConceptRuleRelationManager();
-	private Container c = getContentPane();
-	private JPanel viewOWL;
+	private Container container = getContentPane();
+	private JPanel ontologyViewContainer;
 	private JFileChooser fileChooser;
-	private OWLViewComp VC;
+	private OWLViewComp ontologyView;
 	
-	Dimension dim = new Dimension(600, 930);
+	Dimension dim = new Dimension(600, 930);//dimension used for the detail panel
 
 	public MainFrame(String title) {
 		super(title);
+		
 		setJMenuBar(createMenuBar());
 		fileChooser = new JFileChooser();
 		FileFilter FF = new M_FileFilter("per", "Files with relations and rules");
-		fileChooser.addChoosableFileFilter(new M_FileFilter("per", "Files with relations and rules"));
+		fileChooser.addChoosableFileFilter(FF);
 		fileChooser.setFileFilter(FF);
+		
 		setLayout(new BorderLayout());// set layout manager
-		c.setLayout(new BorderLayout());
+		container.setLayout(new BorderLayout());
+		
 		Relation CRR = new Relation("");
-		pane = new DetailPanel(dim, CRR, getOWLDocument());
-		pane.addRecommendationChangeListener(new RecommendationChangeListener() {
+		detailPanel = new DetailPanel(dim, CRR, null);
+		detailPanel.addRecommendationChangeListener(new RecommendationChangeListener() {
 			public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
-				VC.updateSummaryPanel(CRRM);
+				ontologyView.updateSummaryPanel(CRRM);
 			}
 		});
-	}
-
-	private Document getOWLDocument() {
-		return null;
 	}
 
 	private Document getOWLDocument(byte[] bt) {
@@ -90,31 +91,36 @@ public class MainFrame extends JFrame {
 		try {
 			document = documentBuilder.parse(file);
 		} catch (Exception e) {
-			System.out.println("Error: input stream didn't work");
 			JOptionPane.showMessageDialog(MainFrame.this, "Error with the input stream, ontology data might not be valid", "Error",
 					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 			return null;
 		}
 		return document;
 	}
 
-	private void setDetailPane(Relation relation, org.w3c.dom.Document document) {
-		c.remove(pane);
-		c.revalidate();
-		c.repaint();
+	/*
+	 * updates the detail panel to show the detail of the currently selected node
+	 */
+	private void setDetailPanel(Relation relation, org.w3c.dom.Document document) {
+		container.remove(detailPanel);
+		
+		container.revalidate();
+		container.repaint();
 		revalidate();
 		repaint();
 
-		pane = new DetailPanel(dim, relation, document);
-		pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
-		pane.addRecommendationChangeListener(new RecommendationChangeListener() {
+		detailPanel = new DetailPanel(dim, relation, document);
+		detailPanel.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
+		detailPanel.addRecommendationChangeListener(new RecommendationChangeListener() {
 			public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
-				VC.updateSummaryPanel(CRRM);
+				ontologyView.updateSummaryPanel(CRRM);
 			}
 		});
-		c.add(pane, BorderLayout.EAST);
-		c.revalidate();
-		c.repaint();
+		container.add(detailPanel, BorderLayout.EAST);
+		
+		container.revalidate();
+		container.repaint();
 		revalidate();
 		repaint();
 	}
@@ -178,28 +184,29 @@ public class MainFrame extends JFrame {
 	}
 
 	public void openFromFile(File file) throws IOException {
+		//load from serilized file into the RuleRelationSerial class
 		FileInputStream fis = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		try {
 			RuleRelationSerial RRS = (RuleRelationSerial) ois.readObject();
-			CRRM.setRelations(RRS.getRelations());
+			CRRM.setRelations(RRS.getRelations());//load info into ConceptRuleRelationManger class
 			ois.close();
 			Relation CRR = new Relation("");
 
 			final Document document = getOWLDocument(RRS.getOntology());
 
-			if (viewOWL != null) {
-				c.remove(viewOWL);
-				c.remove(pane);
+			if (ontologyViewContainer != null) {
+				container.remove(ontologyViewContainer);
+				container.remove(detailPanel);
 			}
-			c.revalidate();
-			c.repaint();
+			container.revalidate();
+			container.repaint();
 			revalidate();
 			repaint();
 			
-			ByteArrayInputStream tmp2 = new ByteArrayInputStream(RRS.getOntology());
+			ByteArrayInputStream tmp2 = new ByteArrayInputStream(RRS.getOntology());//get the ontology info from serialized file
 			
-			//---------------Very hacky way of getting the ontology from the byte[] for some reason converting it to an InputStream did not work
+			//Very hacky way of getting the ontology from the byte[] for some reason converting it to an InputStream does not work, so byte[] must first be writen to a file before being read again into the program
 			OutputStream os = new FileOutputStream("./new_source.owl");
 
 			byte[] buffer = new byte[1024];
@@ -213,37 +220,31 @@ public class MainFrame extends JFrame {
 			os.flush();
 			os.close();
 
-			InputStream tmp3 = new FileInputStream("./new_source.owl");
+			InputStream tmp3 = new FileInputStream("./new_source.owl");//load data from file
 			//-----------------
-			VC = new OWLViewComp(tmp3, CRRM);//
+			ontologyView = new OWLViewComp(tmp3, CRRM);//
 
-			VC.addConceptSelectionListener(new ConceptSelectionListener() {
+			ontologyView.addConceptSelectionListener(new ConceptSelectionListener() {
 				public void conceptSelectionOccurred(ConceptSelectionEvent event) {
-					setDetailPane(event.getRelations(), document);
+					setDetailPanel(event.getRelations(), document);
 				}
 			});
 
-			VC.addTabChangeListener(new TabChangeListener() {
-				public void TabChangeEventOccurred(TabChangeEvent event) {
-					VC.updateSummaryPanel(CRRM);
-				}
-			});
+			ontologyViewContainer = ontologyView.getPanel();
 
-			viewOWL = VC.getPanel();
-
-			pane = new DetailPanel(dim, CRR, getOWLDocument(RRS.getOntology()));
-			pane.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
-			pane.addRecommendationChangeListener(new RecommendationChangeListener() {
+			detailPanel = new DetailPanel(dim, CRR, getOWLDocument(RRS.getOntology()));
+			detailPanel.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
+			detailPanel.addRecommendationChangeListener(new RecommendationChangeListener() {
 				public void recommendationChangeEventOcurred(RecommendationChangeEvent event) {
-					VC.updateSummaryPanel(CRRM);
+					ontologyView.updateSummaryPanel(CRRM);
 				}
 			});
-			setDetailPane(new Relation(""), document);
-			c.add(viewOWL, BorderLayout.CENTER);
-			c.add(pane, BorderLayout.EAST);
+			setDetailPanel(new Relation(""), document);
+			container.add(ontologyViewContainer, BorderLayout.CENTER);
+			container.add(detailPanel, BorderLayout.EAST);
 
-			c.revalidate();
-			c.repaint();
+			container.revalidate();
+			container.repaint();
 			revalidate();
 			repaint();
 
