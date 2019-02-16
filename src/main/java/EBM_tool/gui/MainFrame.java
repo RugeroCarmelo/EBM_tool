@@ -49,6 +49,7 @@ public class MainFrame extends JFrame {
 	private JPanel ontologyViewContainer;
 	private JFileChooser fileChooser;
 	private OWLViewComp ontologyView;
+	private RuleRelationSerial RRS;
 	
 	Dimension dim = new Dimension(600, 930);//dimension used for the detail panel
 
@@ -188,7 +189,7 @@ public class MainFrame extends JFrame {
 		FileInputStream fis = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		try {
-			RuleRelationSerial RRS = (RuleRelationSerial) ois.readObject();
+			RRS = (RuleRelationSerial) ois.readObject();
 			CRRM.setRelations(RRS.getRelations());//load info into ConceptRuleRelationManger class
 			ois.close();
 			Relation CRR = new Relation("");
@@ -229,6 +230,14 @@ public class MainFrame extends JFrame {
 					setDetailPanel(event.getRelations(), document);
 				}
 			});
+			
+			ontologyView.addTabChangeListener(new TabChangeListener() {
+				public void TabChangeEventOccurred(TabChangeEvent event) {
+					if(event.getTabNum() == 2) {
+						ontologyView.updateSummaryPanel(CRRM);
+					}
+				}
+			});
 
 			ontologyViewContainer = ontologyView.getPanel();
 
@@ -259,8 +268,8 @@ public class MainFrame extends JFrame {
 		FileOutputStream fos = new FileOutputStream(file);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-		RuleRelationSerial RRS = new RuleRelationSerial();
 		RRS.setRelations(CRRM.getRelations());
+		
 		
 		InputStream tmp3 = new FileInputStream("./new_source.owl");
 		byte[] bytes = IOUtils.toByteArray(tmp3);

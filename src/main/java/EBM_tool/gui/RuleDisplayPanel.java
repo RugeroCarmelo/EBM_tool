@@ -240,7 +240,7 @@ public class RuleDisplayPanel extends JPanel {
 			String recommendation = p_dmn.getDecision(fields, fieldValues, Utils.byteToStream(CR.getFile()),
 					decisionID);// ---------
 			RDP.setRecommendation(recommendation);
-			if (!(CR.getRecommendation().equals(recommendation)) || CR.getRecommendation() == null) {
+			if (CR.getRecommendation() == null || (!(CR.getRecommendation().equals(recommendation)))) {
 				CR.setRecommendation(recommendation);
 				fireRecommendationChangeEvent(new RecommendationChangeEvent(this, ""));
 			}

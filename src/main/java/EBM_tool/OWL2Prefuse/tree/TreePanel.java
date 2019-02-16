@@ -164,6 +164,7 @@ public class TreePanel extends JPanel implements ActionListener, ExportableGraph
                 "<tr><td bgcolor=\"" + Integer.toHexString(EBM_tool.OWL2Prefuse.OWL2Prefuse.Constants.NODE_COLOR_HIGHLIGHTED & 0x00ffffff) + "\"></td><td>Path to selected node</td></tr>" +
                 "<tr><td bgcolor=\"" + Integer.toHexString(EBM_tool.OWL2Prefuse.OWL2Prefuse.Constants.NODE_COLOR_SEARCH & 0x00ffffff) + "\"></td><td>Node in search result set</td></tr>" +
                 "<tr><td bgcolor=\"" + Integer.toHexString(EBM_tool.OWL2Prefuse.OWL2Prefuse.Constants.NODE_DEFAULT_COLOR & 0x00ffffff) + "\"></td><td>Default color</td></tr>" +
+                "<tr><td bgcolor=\"" + Integer.toHexString(EBM_tool.OWL2Prefuse.OWL2Prefuse.Constants.NODE_COLOR_HAS_RULE & 0x00ffffff) + "\"></td><td>Node with rule color</td></tr>" +
                 "</body></html>";
     
         JEditorPane legend = new JEditorPane("text/html", content);
