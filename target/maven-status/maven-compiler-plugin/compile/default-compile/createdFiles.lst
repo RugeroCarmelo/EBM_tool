@@ -54,6 +54,7 @@ EBM_tool\DMNEngine\ScrapeDMN.class
 EBM_tool\gui\DetailPanel$1.class
 EBM_tool\gui\RuleDisplayPanel$2.class
 EBM_tool\DMNEngine\ProcessDMN.class
+EBM_tool\gui\MainFrame$8.class
 com\tom\EBM_RuleManager\Model\Rule.class
 EBM_tool\OWL2Prefuse\OWLViewComp$1.class
 EBM_tool\OWL2Prefuse\graph\GraphDisplay.class
