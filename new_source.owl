@@ -22,6 +22,12 @@
     
 
 
+    <!-- http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Definition -->
+
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Definition"/>
+    
+
+
     <!-- http://www.semanticweb.org/tomas/ontologies/2019/01/556856#definition -->
 
     <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#definition"/>
@@ -176,8 +182,8 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Decision_to_crowdsource">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Business_process_Crowdsourcing"/>
-        <ontologies:definition>This is a definition. This is just a test</ontologies:definition>
-        <rdfs:comment>Decision to crowdsource has all of the rules that will be shown later. Also this comment is supposed to demonstrate what happens if a comment is too large to be displayed on a regular box. This is so that the multiple line labels can be tested. I believe that this comment is already long enough to test this, however, just in case it is not I will continue to write stuff until I get tired of typing and or run out of things to type. This should now do it</rdfs:comment>
+        <ontologies:Definition>Crowdsourcing is an emerging way to utilize online crowd for performing organizational business processes. However, crowdsourcing may not be suitable for every company or task. When making the decision to crowdsource, four groups of decision factors influence this choice: task properties, human capital (people), management, and environment.</ontologies:Definition>
+        <rdfs:comment>Crowdsourcing is an emerging way to utilize online crowd for performing organizational business processes. However, crowdsourcing may not be suitable for every company or task. When making the decision to crowdsource, four groups of decision factors influence this choice: task properties, human capital (people), management, and environment</rdfs:comment>
     </owl:Class>
     
 
@@ -186,6 +192,14 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Describe_task">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Task_design"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Environment -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Environment">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Examine_decision_factor"/>
     </owl:Class>
     
 
@@ -353,9 +367,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Task_Characteristic -->
+    <!-- http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Task_Properties -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Task_Characteristic">
+    <owl:Class rdf:about="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Task_Properties">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/tomas/ontologies/2019/01/556856#Examine_decision_factor"/>
     </owl:Class>
     

@@ -56,7 +56,7 @@ public class RuleDisplayPanel extends JPanel {
 	public void formatComponents() {
 		GridBagConstraints gc = new GridBagConstraints();
 		pane = new JPanel();
-		pane.setPreferredSize(new Dimension(550, 300));
+		pane.setPreferredSize(new Dimension(600, 300));
 		pane.setBackground(new Color(254, 254, 254));
 
 		pane.setLayout(new GridBagLayout());
@@ -97,15 +97,15 @@ public class RuleDisplayPanel extends JPanel {
 	public RuleDisplayPanel() {
 		ruleName = new JLabel("No rules to display");
 		pane = new JPanel();
-		pane.setPreferredSize(new Dimension(550, 300));
+		pane.setPreferredSize(new Dimension(600, 300));
 		pane.setBackground(new Color(254, 254, 254));
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
 		ruleName.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
 
 		pane.add(ruleName);
-		pane.setPreferredSize(new Dimension(550, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
-		setSize(new Dimension(550, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
+		pane.setPreferredSize(new Dimension(600, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
+		setSize(new Dimension(600, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
 		Border placardBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY);
 
 		pane.setBorder(placardBorder);
@@ -114,7 +114,7 @@ public class RuleDisplayPanel extends JPanel {
 
 	public void initialize(final Rule CR) {
 		pane = new JPanel();
-		pane.setPreferredSize(new Dimension(550, 300));
+		pane.setPreferredSize(new Dimension(600, 300));
 		pane.setBackground(new Color(254, 254, 254));
 
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
@@ -152,8 +152,8 @@ public class RuleDisplayPanel extends JPanel {
 		updateRecommendationAction(CR);
 		pane.add(RDP);
 
-		pane.setPreferredSize(new Dimension(550, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
-		setSize(new Dimension(550, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
+		pane.setPreferredSize(new Dimension(600, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
+		setSize(new Dimension(600, CalculateHeightBasedOnNumberOfQuestions(numberOfQuestions)));
 		Border placardBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY);
 
 		pane.setBorder(placardBorder);
@@ -162,7 +162,7 @@ public class RuleDisplayPanel extends JPanel {
 
 	private int CalculateHeightBasedOnNumberOfQuestions(int nOfQuestions) {
 		int height = nOfQuestions * 38 + 93;
-		totalHeight = height + 15;
+		totalHeight = height + 17;
 		return height;
 	}
 

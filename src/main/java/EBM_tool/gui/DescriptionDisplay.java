@@ -61,7 +61,7 @@ public class DescriptionDisplay extends JPanel {
 			annotationType = new JLabel(type);
 		}
 		pane = new JPanel();
-		pane.setPreferredSize(new Dimension(550, 300));
+		pane.setPreferredSize(new Dimension(600, 300));
 		pane.setBackground(new Color(254, 254, 254));
 
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
@@ -87,8 +87,8 @@ public class DescriptionDisplay extends JPanel {
 																				// panels
 		}
 
-		pane.setPreferredSize(new Dimension(550, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
-		setSize(new Dimension(550, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
+		pane.setPreferredSize(new Dimension(600, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
+		setSize(new Dimension(600, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
 		Border placardBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY);
 
 		pane.setBorder(placardBorder);
@@ -108,7 +108,7 @@ public class DescriptionDisplay extends JPanel {
 	private void initializeNoDesc() {
 		annotationType = new JLabel("Definition");
 		pane = new JPanel();
-		pane.setPreferredSize(new Dimension(550, 300));
+		pane.setPreferredSize(new Dimension(600, 300));
 		pane.setBackground(new Color(254, 254, 254));
 
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
@@ -125,8 +125,8 @@ public class DescriptionDisplay extends JPanel {
 		pane.add(comp);
 		numberOfLabels++;
 
-		pane.setPreferredSize(new Dimension(550, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
-		setSize(new Dimension(550, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
+		pane.setPreferredSize(new Dimension(600, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
+		setSize(new Dimension(600, CalculateHeightBasedOnNumberOfLabels(numberOfLabels)));
 		Border placardBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY);
 
 		pane.setBorder(placardBorder);

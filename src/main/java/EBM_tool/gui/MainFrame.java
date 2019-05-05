@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
 	private OWLViewComp ontologyView;
 	private RuleRelationSerial RRS;
 	
-	Dimension dim = new Dimension(600, 930);//dimension used for the detail panel
+	Dimension dim = new Dimension(650, 930);//dimension used for the detail panel
 
 	public MainFrame(String title) {
 		super(title);

@@ -55,7 +55,7 @@ public class DescriptionGetter {
 
 	// method to make getting certain information more convenient
 	public ArrayList<String> getDefinition(String className) {
-		return interpreter(className, "owl:Class", "ontologies:definition");
+		return interpreter(className, "owl:Class", "ontologies:Definition");//ontologies:definition
 	}
 
 	// method to make getting certain information more convenient
